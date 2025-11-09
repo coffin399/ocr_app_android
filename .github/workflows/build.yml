@@ -172,24 +172,7 @@ jobs:
           VERSION_CODE="${{ steps.extract_version.outputs.version_code }}"
           
           # リリースノートを準備
-          RELEASE_NOTES=$(cat <<EOF
-## リリース内容
-
-- Version: $VERSION_NAME (Code: $VERSION_CODE)
-- APKファイルをダウンロードしてインストールできます
-
-## インストール方法
-
-1. APKファイルをダウンロード
-2. Androidデバイスに転送
-3. 「不明なソースからのインストール」を許可
-4. APKファイルをタップしてインストール
-
-## 変更履歴
-
-詳細は [Commits](https://github.com/${{ github.repository }}/commits/$TAG_NAME) をご覧ください。
-EOF
-)
+          RELEASE_NOTES="## リリース内容"$'\n\n'"- Version: $VERSION_NAME (Code: $VERSION_CODE)"$'\n'"- APKファイルをダウンロードしてインストールできます"$'\n\n'"## インストール方法"$'\n\n'"1. APKファイルをダウンロード"$'\n'"2. Androidデバイスに転送"$'\n'"3. 「不明なソースからのインストール」を許可"$'\n'"4. APKファイルをタップしてインストール"$'\n\n'"## 変更履歴"$'\n\n'"詳細は [Commits](https://github.com/${{ github.repository }}/commits/$TAG_NAME) をご覧ください。"
           
           # GitHub CLIを使ってリリースを作成
           gh release create "$TAG_NAME" \
