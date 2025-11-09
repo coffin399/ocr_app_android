@@ -47,28 +47,51 @@ jobs:
           path: app/build/outputs/apk/release/app-release.apk
           retention-days: 30
       
+      - name: Extract version info
+        id: extract_version
+        run: |
+          VERSION_NAME=$(grep -oP 'versionName\s+"\K[^"]+' app/build.gradle | head -1)
+          VERSION_CODE=$(grep -oP 'versionCode\s+\K[0-9]+' app/build.gradle | head -1)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+      
+      - name: Get release notes
+        id: release_notes
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "$TAG_NAME^" 2>/dev/null || echo "")
+          
+          if [ -z "$PREVIOUS_TAG" ]; then
+            NOTES="## リリース内容
+
+- 初回リリース
+- APKファイルをダウンロードしてインストールできます
+
+## 変更履歴
+
+詳細は [Commits](https://github.com/${{ github.repository }}/compare/$TAG_NAME) をご覧ください。"
+          else
+            NOTES="## リリース内容
+
+- Version: ${{ steps.extract_version.outputs.version_name }} (Code: ${{ steps.extract_version.outputs.version_code }})
+- APKファイルをダウンロードしてインストールできます
+
+## 変更履歴
+
+詳細は [Commits](https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...$TAG_NAME) をご覧ください。"
+          fi
+          
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           files: app/build/outputs/apk/release/app-release.apk
           name: Release ${{ github.ref_name }}
-          body: |
-            ## リリース内容
-            
-            - APKファイルをダウンロードしてインストールできます
-            - リリースノートは後で追加予定
-            
-            ## インストール方法
-            
-            1. APKファイルをダウンロード
-            2. Androidデバイスに転送
-            3. 「不明なソースからのインストール」を許可
-            4. APKファイルをタップしてインストール
-            
-            ## 変更履歴
-            
-            詳細は [Commits](https://github.com/${{ github.repository }}/commits/${{ github.ref_name }}) をご覧ください。
+          body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: false
         env:

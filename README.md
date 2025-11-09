@@ -140,16 +140,24 @@ Android向けのOCR・音声文字起こしアプリです。画像や音声フ�
 
 このプロジェクトでは、GitHub Actionsを使用してAPKを自動ビルド・リリースしています。
 
-### リリース方法
+### 自動リリース方法（推奨）⭐
 
 1. バージョン番号を更新（`app/build.gradle`の`versionCode`と`versionName`）
-2. 変更をコミット・プッシュ
-3. タグを作成してプッシュ
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
+   ```gradle
+   versionCode 1
+   versionName "1.0.0"
    ```
-4. GitHub Actionsが自動的にAPKをビルドしてGitHub Releasesにアップロード
+2. 変更をコミット・プッシュ
+   ```bash
+   git add app/build.gradle
+   git commit -m "Bump version to 1.0.0"
+   git push origin main
+   ```
+3. **自動的にリリースが開始されます**：
+   - バージョン名から自動的にタグ（`v1.0.0`）を作成
+   - APKをビルドしてGitHub Releasesにアップロード
+
+**手動でタグを作成する必要はありません！**
 
 詳細は [.github/RELEASE_WORKFLOW.md](.github/RELEASE_WORKFLOW.md) をご覧ください。
 

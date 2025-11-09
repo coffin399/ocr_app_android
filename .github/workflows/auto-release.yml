@@ -1,0 +1,70 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/build.gradle'
+
+jobs:
+  check-and-release:
+    name: Check version and create release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # タグを作成するために必要
+    # 同じバージョンで複数回実行されないように制限
+    concurrency:
+      group: auto-release-${{ github.ref }}
+      cancel-in-progress: false
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # すべての履歴を取得（タグの確認のため）
+      
+      - name: Extract version name
+        id: extract_version
+        run: |
+          VERSION_NAME=$(grep -oP 'versionName\s+"\K[^"]+' app/build.gradle | head -1)
+          VERSION_CODE=$(grep -oP 'versionCode\s+\K[0-9]+' app/build.gradle | head -1)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "tag_name=v$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "Version Name: $VERSION_NAME"
+          echo "Version Code: $VERSION_CODE"
+          echo "Tag Name: v$VERSION_NAME"
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag $TAG_NAME already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag $TAG_NAME does not exist, will create it"
+          fi
+      
+      - name: Create tag and release
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
+          VERSION_NAME="${{ steps.extract_version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.extract_version.outputs.version_code }}"
+          
+          # タグを作成
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME (Version Code: $VERSION_CODE)"
+          git push origin "$TAG_NAME"
+          
+          echo "Created and pushed tag: $TAG_NAME"
+      
+      - name: Trigger release workflow
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          echo "Tag created. The release workflow will be triggered automatically."
+
