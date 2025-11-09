@@ -1,117 +1,188 @@
-# 文字起こしアプリ (OCR App)
+# 文字起こしアプリ (OCR App) 📱✨
 
-Android向けのOCR・音声文字起こしアプリです。
+Android向けのOCR・音声文字起こしアプリです。画像や音声ファイルからテキストを抽出し、ローカルに保存・管理できるアプリです。
 
-## 機能
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Android](https://img.shields.io/badge/Android-7.0%2B-green.svg)](https://www.android.com/)
+[![Java](https://img.shields.io/badge/Java-11-orange.svg)](https://www.java.com/)
 
-- **OCR機能**: 画像ファイルからテキストを抽出
-- **音声文字起こし**: 音声ファイルをテキストに変換
-- **音声録音**: アプリ内で音声を録音して文字起こし
-- **検索機能**: 保存されたテキストを検索
-- **データ管理**: ローカルデータベースにテキストを保存
+## 🎯 プロジェクト概要
 
-## 技術スタック
+このプロジェクトは、クラウドファンディングで資金調達を行いながら開発を進めているオープンソースプロジェクトです。皆様からのご支援をいただきながら、高品質なOCR・音声文字起こしアプリを開発しています。
 
-- **言語**: Java
-- **UI**: Material Design Components (従来のViewシステム)
-- **アーキテクチャ**: MVVM
-- **データベース**: Room
+### 🌟 主な特徴
+
+- **高精度なOCR機能**: Google Gemini APIを使用した高精度な文字認識
+- **多様なファイル形式対応**: 画像（JPEG, PNG, GIF, BMP, WebP）、PDF、音声（WAV, MP3, FLAC, OGG, M4A, AAC, WebM, Opus）
+- **音声録音機能**: アプリ内で直接音声を録音して文字起こし
+- **プライバシー重視**: 処理完了後、サーバー上のファイルは即座に削除
+- **オフライン対応**: 保存されたテキストはローカルデータベースに保存され、オフラインでも閲覧可能
+- **モダンなUI**: Material Design 3に基づいた直感的で美しいユーザーインターフェース
+
+## 📊 開発進捗状況
+
+### 現在の開発状況 🚀
+
+#### ✅ 完了済み機能
+- [x] OCR機能（画像・PDFからのテキスト抽出）
+- [x] 音声文字起こし機能（音声ファイルからのテキスト抽出）
+- [x] 音声録音機能（アプリ内録音）
+- [x] テキスト検索機能
+- [x] ローカルデータベース保存（Room Database）
+- [x] テキストのコピー・共有機能
+- [x] プルリフレッシュ機能
+- [x] モダンなMaterial Design UI
+- [x] Google Play Billing統合（寄付機能）
+- [x] プライバシーポリシー・利用規約
+- [x] データ取り扱い説明
+
+#### 🔧 現在の作業（バグ修正・品質向上フェーズ）
+- [ ] UIインタラクションの最適化
+- [ ] エラーハンドリングの改善
+- [ ] パフォーマンスの最適化
+- [ ] メモリリークの修正
+- [ ] レイアウトの微調整
+- [ ] アクセシビリティの向上
+
+#### 🗺️ 今後のロードマップ
+- [ ] 複数言語対応（英語、中国語など）
+- [ ] テキスト編集機能
+- [ ] テキストエクスポート機能（TXT, PDF, DOCX）
+- [ ] クラウド同期機能（オプション）
+- [ ] ダークモード対応
+- [ ] バッチ処理機能（複数ファイル一括処理）
+- [ ] カスタムモデル選択機能
+- [ ] 処理履歴の詳細表示
+- [ ] 統計情報表示
+
+### 📈 開発マイルストーン
+
+| マイルストーン | ステータス | 完了日 |
+|--------------|----------|--------|
+| 基本機能実装 | ✅ 完了 | 2025年11月 |
+| UI/UX改善 | ✅ 完了 | 2025年11月 |
+| バグ修正・品質向上 | 🔄 進行中 | - |
+| 機能拡張 | 📅 予定 | - |
+
+## 🛠️ 技術スタック
+
+- **言語**: Java 11
+- **UI**: Material Design Components
+- **アーキテクチャ**: MVVM (Model-View-ViewModel)
+- **データベース**: Room Database
 - **ネットワーク**: Retrofit2, OkHttp3
-- **依存性注入**: なし（ViewModel直接インスタンス化）
+- **ナビゲーション**: Android Navigation Component
 
-## 要件
+## 📱 機能詳細
 
-- Android Studio Hedgehog | 2023.1.1 以降
-- JDK 8 以降
-- Android SDK 24 以降 (Android 7.0+)
-- Gradle 8.2 以降
+### OCR機能
+- 画像ファイル（JPEG, PNG, GIF, BMP, WebP）からテキストを抽出
+- PDFファイルからのテキスト抽出
+- 高精度な文字認識（Google Gemini API使用）
 
-## セットアップ
+### 音声文字起こし機能
+- 音声ファイル（WAV, MP3, FLAC, OGG, M4A, AAC, WebM, Opus）からテキストを抽出
+- アプリ内で音声を録音して文字起こし
+- 日本語対応（Whisperモデル使用）
 
-1. リポジトリをクローン
-```bash
-git clone <your-private-repo-url>
-cd ocr_app_android
-```
+### データ管理
+- ローカルデータベース（Room）にテキストを保存
+- 検索機能で保存されたテキストを検索
+- テキストのコピー・共有機能
+- プルリフレッシュで最新データを取得
 
-2. API設定（必須）
-   - `app/src/main/java/com/mojiscan/ocr/network/RetrofitClient.java` の `BASE_URL` を個人用APIサーバーのURLに変更してください。
+### UI/UX
+- Material Design 3に基づいたモダンなUI
+- 直感的なナビゲーション
+- レスポンシブなレイアウト
+- スムーズなアニメーション
 
-3. Android Studioで開く
+## 🎁 クラウドファンディング・ご支援について
 
-4. ビルド
-```bash
-./gradlew build
-```
+このプロジェクトは、クラウドファンディングで資金調達を行いながら開発を進めています。皆様からのご支援により、以下の改善・機能追加を実現しています：
 
-5. 実行
-- Android Studioから実行
-- または `./gradlew installDebug` でデバイスにインストール
+### ご支援の使途
+- サーバーインフラの維持・拡張
+- APIコストの負担（Google Gemini APIなど）
+- 開発環境の整備
+- 新機能開発
+- バグ修正・品質向上
 
-## API設定
+### ご支援方法
 
-このアプリは個人用のプライベートAPIを使用しています。APIの詳細は非公開です。
+#### アプリ内寄付
+アプリ内の「設定」→「開発を支援する」から、任意の金額でご支援いただけます。
+- 最小金額: 10円
+- 推奨金額: 100円、500円、1000円、5000円
+- 最大金額: 10,000円（それ以上の場合は複数回に分けてお願いします）
 
-## ビルド設定
+#### その他の支援方法
+- GitHubでスターをつける
+- イシューやプルリクエストで貢献する
+- アプリをシェアする
+- フィードバックを送る
 
-### リリースビルド
+### ご支援者への感謝
 
-```bash
-./gradlew assembleRelease
-```
+ご支援いただいた皆様には、心より感謝申し上げます。皆様のご支援により、このプロジェクトを継続的に開発・改善することができています。
 
-APKは `app/build/outputs/apk/release/` に生成されます。
+## 🔒 プライバシー・セキュリティ
 
-### デバッグビルド
+### データの取り扱い
+- アップロードされたファイルは処理完了後、即座にサーバーから削除されます
+- テキストデータはローカルデバイスにのみ保存されます
+- サーバーには一時的な処理のためだけにファイルがアップロードされます
+- 個人情報は収集・保存されません
 
-```bash
-./gradlew assembleDebug
-```
+詳細は、アプリ内の「設定」→「データの取り扱いについて」をご覧ください。
 
-APKは `app/build/outputs/apk/debug/` に生成されます。
+## 🤝 コントリビューション
 
-## プロジェクト構造
+コントリビューションを歓迎します！以下の方法で貢献できます：
 
-```
-app/
-├── src/
-│   └── main/
-│       ├── java/com/mojiscan/ocr/
-│       │   ├── data/
-│       │   │   ├── model/          # APIレスポンスモデル
-│       │   │   ├── entity/         # Roomエンティティ
-│       │   │   ├── dao/            # Room DAO
-│       │   │   └── database/       # Roomデータベース
-│       │   ├── network/            # Retrofit APIクライアント
-│       │   ├── repository/         # リポジトリ
-│       │   ├── ui/
-│       │   │   ├── fragment/       # Fragmentクラス
-│       │   │   ├── adapter/        # RecyclerViewアダプター
-│       │   │   └── viewmodel/      # ViewModel
-│       │   ├── billing/            # Google Play Billing
-│       │   ├── util/               # ユーティリティ
-│       │   ├── MainActivity.java
-│       │   └── OcrApplication.java
-│       └── res/                    # リソースファイル
-└── build.gradle
-```
+1. イシューの報告
+2. プルリクエストの提出
+3. ドキュメントの改善
+4. バグの修正
+5. 新機能の提案
 
-## ライセンス
+詳細は [CONTRIBUTING.md](CONTRIBUTING.md) をご覧ください。
 
-MIT License
+## 📝 ライセンス
 
-## 注意事項
+このプロジェクトは [MIT License](LICENSE) の下で公開されています。
 
-このリポジトリは個人用のプライベートリポジトリです。APIエンドポイントや設定情報は非公開です。
+## 👤 作者
 
-## 作者
+**coffin399**
 
-coffin299
+- GitHub: [@coffin399](https://github.com/coffin399)
+- プロジェクトリンク: [https://github.com/coffin399/ocr_app_android](https://github.com/coffin399/ocr_app_android)
 
-## 謝辞
+## 🙏 謝辞
 
 - Google Gemini API (非公開サーバー経由)
 - Material Design Components
 - Retrofit2
 - Room Database
+- Android Jetpack Components
+- すべてのコントリビューターの皆様
+- ご支援いただいているすべての皆様
 
+## 📞 お問い合わせ
+
+- イシュー: [GitHub Issues](https://github.com/coffin399/ocr_app_android/issues)
+- アップデート情報: [Commits](https://github.com/coffin399/ocr_app_android/commits?author=coffin399)
+- フィードバック: アプリ内の「設定」→「ご要望受付フォーム」
+
+## ⚠️ 注意事項
+
+- このアプリは開発中のため、一部機能が未完成の場合があります
+- バグ報告は大歓迎です！
+- 現在はバグ修正・品質向上フェーズです
+
+---
+
+**⭐ このプロジェクトが役に立ったら、スターをつけていただけると嬉しいです！**
+
+**💝 ご支援いただけると、さらなる開発・改善が可能になります！**
