@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.QuestionAnswer
@@ -60,6 +61,16 @@ fun SettingsScreen(navController: NavController) {
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(stringResource(R.string.feedback_url)))
                     context.startActivity(intent)
+                }
+            )
+
+            Divider()
+
+            SettingsItem(
+                title = stringResource(R.string.donation),
+                icon = Icons.Default.Favorite,
+                onClick = {
+                    navController.navigate(Screen.Donation.route)
                 }
             )
 

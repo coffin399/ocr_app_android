@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#2196F3</color>
+    <!-- ランチャーアイコンの背景色: グラデーション風の青（OCRテーマ） -->
+    <!-- より明るい青で、ドキュメントとテキストが映えるように -->
+    <color name="ic_launcher_background">#1976D2</color>
+    
+    <!-- テーマカラー -->
+    <color name="primary_blue">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="accent">#03A9F4</color>
 </resources>
 

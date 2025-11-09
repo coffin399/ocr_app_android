@@ -22,5 +22,19 @@
     <string name="version">バージョン</string>
     <string name="github_url">https://github.com/yourusername/ocr_app_android</string>
     <string name="feedback_url">https://forms.gle/your-feedback-form</string>
+    <string name="donation">開発を支援する</string>
+    <string name="donation_title">開発を支援する</string>
+    <string name="donation_description">このアプリの開発を支援していただけると嬉しいです。任意の金額でご支援いただけます。</string>
+    <string name="donation_amount">寄付金額</string>
+    <string name="donation_amount_hint">10</string>
+    <string name="donation_min_amount">最小金額: 10円</string>
+    <string name="donate_button">寄付する</string>
+    <string name="donation_processing">処理中...</string>
+    <string name="donation_success">ご寄付ありがとうございました！</string>
+    <string name="donation_error">エラーが発生しました。もう一度お試しください。</string>
+    <string name="donation_cancelled">寄付がキャンセルされました</string>
+    <string name="donation_not_available">寄付機能は現在利用できません</string>
+    <string name="yen">円</string>
+    <string name="donation_note">ご寄付は任意です。アプリの機能は無料でご利用いただけます。</string>
 </resources>
 

@@ -4,17 +4,163 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- OCRアプリアイコン: ドキュメントスキャンとテキスト認識を表現 -->
+    
+    <!-- 背景のドキュメント（影付きで立体感） -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M22,28 L22,78 L72,78 L72,48 L58,48 L58,28 Z"/>
+    
+    <!-- メインのドキュメント（白） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M25,31 L25,75 L69,75 L69,51 L57,51 L57,31 Z"/>
+    
+    <!-- ドキュメントの折り目（影） -->
+    <path
+        android:fillColor="#BBDEFB"
+        android:pathData="M57,31 L57,51 L69,51 Z"/>
+    
+    <!-- ドキュメントの縁（細い線） -->
+    <path
+        android:strokeColor="#90CAF9"
+        android:strokeWidth="0.5"
+        android:pathData="M25,31 L25,75 L69,75 L69,51 L57,51 L57,31 Z"
+        android:fillColor="#00000000"/>
+    
+    <!-- 左側のマージン線（OCRスキャンガイド） -->
+    <path
+        android:strokeColor="#2196F3"
+        android:strokeWidth="1"
+        android:strokeDasharray="1,2"
+        android:pathData="M32,38 L32,70"
+        android:opacity="0.5"/>
+    
+    <!-- テキスト行1（認識済み） -->
+    <path
+        android:strokeColor="#1976D2"
+        android:strokeWidth="2.5"
+        android:strokeLinecap="round"
+        android:pathData="M38,44 L60,44"/>
+    
+    <!-- テキスト行2（認識中 - 緑色でハイライト） -->
+    <path
+        android:strokeColor="#1976D2"
+        android:strokeWidth="2.5"
+        android:strokeLinecap="round"
+        android:pathData="M38,52 L52,52"/>
+    <!-- 認識中の部分（緑） -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="3"
+        android:strokeLinecap="round"
+        android:pathData="M52,52 L58,52"/>
+    <!-- 認識中のアニメーション効果 -->
+    <circle
+        android:fillColor="#4CAF50"
+        android:cx="55"
+        android:cy="52"
+        android:r="1.5"
+        android:opacity="0.8"/>
+    
+    <!-- テキスト行3 -->
+    <path
+        android:strokeColor="#1976D2"
+        android:strokeWidth="2.5"
+        android:strokeLinecap="round"
+        android:pathData="M38,60 L56,60"/>
+    
+    <!-- テキスト行4（短い行） -->
+    <path
+        android:strokeColor="#1976D2"
+        android:strokeWidth="2.5"
+        android:strokeLinecap="round"
+        android:pathData="M38,68 L50,68"/>
+    
+    <!-- スキャンライン（横方向の走査線） -->
+    <path
+        android:strokeColor="#2196F3"
+        android:strokeWidth="1.5"
+        android:strokeLinecap="round"
+        android:opacity="0.7"
+        android:pathData="M35,48 L63,48"/>
+    <!-- スキャンラインのグラデーション効果（点） -->
+    <circle
+        android:fillColor="#2196F3"
+        android:cx="49"
+        android:cy="48"
+        android:r="2"
+        android:opacity="0.9"/>
+    
+    <!-- OCR認識アイコン（右上 - 目のようなデザイン） -->
     <group
-        android:scaleX="0.5"
-        android:scaleY="0.5"
-        android:translateX="27"
-        android:translateY="27">
-        <path
+        android:translateX="68"
+        android:translateY="18">
+        <!-- 外側の円 -->
+        <circle
+            android:fillColor="#2196F3"
+            android:cx="10"
+            android:cy="10"
+            android:r="8"
+            android:opacity="0.2"/>
+        <!-- 中間の円 -->
+        <circle
+            android:fillColor="#2196F3"
+            android:cx="10"
+            android:cy="10"
+            android:r="5.5"/>
+        <!-- 瞳 -->
+        <circle
             android:fillColor="#FFFFFF"
-            android:pathData="M27,27m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"/>
-        <path
-            android:fillColor="#000000"
-            android:pathData="M27,15 L27,39 M15,27 L39,27"/>
+            android:cx="10"
+            android:cy="10"
+            android:r="3.5"/>
+        <!-- 瞳孔 -->
+        <circle
+            android:fillColor="#1976D2"
+            android:cx="10"
+            android:cy="10"
+            android:r="2"/>
+        <!-- 光の反射 -->
+        <circle
+            android:fillColor="#E3F2FD"
+            android:cx="11"
+            android:cy="9"
+            android:r="0.8"/>
     </group>
+    
+    <!-- 認識完了のチェックマーク（左下） -->
+    <group
+        android:translateX="18"
+        android:translateY="78">
+        <!-- チェックマークの背景円 -->
+        <circle
+            android:fillColor="#4CAF50"
+            android:cx="6"
+            android:cy="6"
+            android:r="5"/>
+        <!-- チェックマーク -->
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLinecap="round"
+            android:strokeLinejoin="round"
+            android:pathData="M3,6 L5.5,8.5 L9,4"
+            android:fillColor="#00000000"/>
+    </group>
+    
+    <!-- テキスト認識のビーム効果（左上から右下へ） -->
+    <path
+        android:strokeColor="#03A9F4"
+        android:strokeWidth="1"
+        android:strokeLinecap="round"
+        android:opacity="0.4"
+        android:pathData="M28,35 L42,49"/>
+    <path
+        android:strokeColor="#03A9F4"
+        android:strokeWidth="1"
+        android:strokeLinecap="round"
+        android:opacity="0.3"
+        android:pathData="M30,37 L44,51"/>
+    
 </vector>
-

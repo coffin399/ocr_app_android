@@ -19,6 +19,7 @@ sealed class Screen(val route: String) {
     object DataHandling : Screen("data_handling")
     object TermsOfService : Screen("terms_of_service")
     object PrivacyPolicy : Screen("privacy_policy")
+    object Donation : Screen("donation")
 }
 
 @Composable
@@ -64,6 +65,9 @@ fun Navigation(
         }
         composable(Screen.PrivacyPolicy.route) {
             PrivacyPolicyScreen(navController = navController)
+        }
+        composable(Screen.Donation.route) {
+            DonationScreen(navController = navController)
         }
     }
 }

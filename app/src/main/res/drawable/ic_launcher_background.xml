@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- グラデーション風の背景（アダプティブアイコン用） -->
+    
+    <!-- ベースの背景 -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z"/>
+    
+    <!-- 左上の明るい部分（光の効果） -->
+    <path
+        android:fillColor="#2196F3"
+        android:opacity="0.6"
+        android:pathData="M0,0 L108,0 L108,54 L0,54 Z"/>
+    
+    <!-- 中央の明るい円（ハイライト） -->
+    <circle
+        android:fillColor="#42A5F5"
+        android:cx="54"
+        android:cy="30"
+        android:r="35"
+        android:opacity="0.3"/>
+    
+    <!-- 右下の暗い部分（影の効果） -->
+    <path
+        android:fillColor="#1565C0"
+        android:opacity="0.4"
+        android:pathData="M54,54 L108,54 L108,108 L54,108 Z"/>
+    
+</vector>
+
