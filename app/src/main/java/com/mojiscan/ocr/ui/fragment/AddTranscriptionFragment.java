@@ -4,20 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.card.MaterialCardView;
 import com.mojiscan.ocr.R;
@@ -29,13 +30,10 @@ import com.mojiscan.ocr.util.AudioRecorder;
 import java.io.File;
 
 public class AddTranscriptionFragment extends Fragment {
-    private static final int PERMISSION_REQUEST_CODE = 100;
-    private static final int FILE_PICKER_REQUEST = 1;
-    private static final int AUDIO_FILE_PICKER_REQUEST = 2;
-
     private TranscriptionViewModel transcriptionViewModel;
     private ApiViewModel apiViewModel;
     private AudioRecorder audioRecorder;
+    private NavController navController;
     
     private Button selectFileButton;
     private Button selectAudioButton;
@@ -45,6 +43,43 @@ public class AddTranscriptionFragment extends Fragment {
     private TextView errorTextView;
     private MaterialCardView processingCard;
     private TextView processingTextView;
+
+    private ActivityResultLauncher<Intent> filePickerLauncher;
+    private ActivityResultLauncher<String> audioPickerLauncher;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getData() != null && result.getData().getData() != null) {
+                    Uri uri = result.getData().getData();
+                    processFile(uri);
+                }
+            }
+        );
+
+        audioPickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    processFile(uri);
+                }
+            }
+        );
+
+        requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            isGranted -> {
+                if (isGranted) {
+                    startRecording();
+                }
+            }
+        );
+    }
 
     @Nullable
     @Override
@@ -56,6 +91,7 @@ public class AddTranscriptionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         transcriptionViewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
         apiViewModel = new ViewModelProvider(requireActivity()).get(ApiViewModel.class);
         audioRecorder = new AudioRecorder(requireContext());
@@ -63,7 +99,8 @@ public class AddTranscriptionFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            toolbar.setTitle(R.string.add_transcription);
+            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
         }
 
         selectFileButton = view.findViewById(R.id.selectFileButton);
@@ -126,21 +163,17 @@ public class AddTranscriptionFragment extends Fragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         String[] mimeTypes = {"image/*", "application/pdf"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        startActivityForResult(Intent.createChooser(intent, "ファイルを選択"), FILE_PICKER_REQUEST);
+        filePickerLauncher.launch(Intent.createChooser(intent, "ファイルを選択"));
     }
 
     private void openAudioFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, "音声ファイルを選択"), AUDIO_FILE_PICKER_REQUEST);
+        audioPickerLauncher.launch("audio/*");
     }
 
     private void startRecording() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) 
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), 
-                new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE);
+            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
             return;
         }
         audioRecorder.startRecording();
@@ -158,9 +191,7 @@ public class AddTranscriptionFragment extends Fragment {
             @Override
             public void onSuccess(TranscriptionEntity transcription) {
                 transcriptionViewModel.addTranscription(transcription);
-                if (getView() != null) {
-                    Navigation.findNavController(getView()).popBackStack();
-                }
+                navController.popBackStack();
             }
 
             @Override
@@ -175,9 +206,7 @@ public class AddTranscriptionFragment extends Fragment {
             @Override
             public void onSuccess(TranscriptionEntity transcription) {
                 transcriptionViewModel.addTranscription(transcription);
-                if (getView() != null) {
-                    Navigation.findNavController(getView()).popBackStack();
-                }
+                navController.popBackStack();
             }
 
             @Override
@@ -186,28 +215,4 @@ public class AddTranscriptionFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            if (requestCode == FILE_PICKER_REQUEST) {
-                processFile(uri);
-            } else if (requestCode == AUDIO_FILE_PICKER_REQUEST) {
-                processFile(uri);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startRecording();
-            }
-        }
-    }
 }
-

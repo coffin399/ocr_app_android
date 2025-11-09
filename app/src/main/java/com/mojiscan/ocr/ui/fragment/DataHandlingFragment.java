@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.mojiscan.ocr.R;
 
 public class DataHandlingFragment extends Fragment {
+    private NavController navController;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,10 +26,13 @@ public class DataHandlingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            toolbar.setTitle(R.string.data_handling);
+            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
         }
 
         TextView contentTextView = view.findViewById(R.id.contentTextView);
@@ -47,7 +53,6 @@ public class DataHandlingFragment extends Fragment {
                 "ファイルの送信はHTTPS通信により暗号化されて行われます。また、サーバー上でのファイルは処理完了後に即座に削除されるため、データ漏洩のリスクを最小限に抑えています。\n\n" +
                 "6. データの削除\n" +
                 "アプリ内に保存されたテキストデータは、ユーザーがアプリ内で削除することができます。また、アプリをアンインストールすることで、すべてのデータが削除されます。\n\n" +
-                "更新日: 2024年1月1日";
+                "更新日: 2025年11月9日";
     }
 }
-

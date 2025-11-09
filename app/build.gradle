@@ -44,6 +44,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.6.2'
     implementation 'androidx.lifecycle:lifecycle-runtime:2.6.2'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.6.2'
+    
+    // Activity Result API
+    implementation 'androidx.activity:activity:1.8.2'
+    implementation 'androidx.fragment:fragment:1.6.2'
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment:2.7.5'

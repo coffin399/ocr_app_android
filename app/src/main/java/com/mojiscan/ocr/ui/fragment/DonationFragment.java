@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
@@ -27,6 +28,7 @@ import com.mojiscan.ocr.ui.viewmodel.DonationViewModel;
 
 public class DonationFragment extends Fragment {
     private DonationViewModel viewModel;
+    private NavController navController;
     private TextInputEditText amountEditText;
     private TextInputLayout amountInputLayout;
     private ChipGroup amountChipGroup;
@@ -46,12 +48,14 @@ public class DonationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         viewModel = new ViewModelProvider(this).get(DonationViewModel.class);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            toolbar.setTitle(R.string.donation_title);
+            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
         }
 
         amountEditText = view.findViewById(R.id.amountEditText);
@@ -143,4 +147,3 @@ public class DonationFragment extends Fragment {
         });
     }
 }
-

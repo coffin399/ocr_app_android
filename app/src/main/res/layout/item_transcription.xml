@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:textSize="12sp"
                 android:textColor="?android:attr/textColorSecondary"
-                tools:text="2024/01/01 12:00" />
+                tools:text="2025/11/09 12:00" />
 
             <Button
                 android:id="@+id/deleteButton"

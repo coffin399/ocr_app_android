@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.mojiscan.ocr.R;
 
 public class TermsOfServiceFragment extends Fragment {
+    private NavController navController;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,10 +26,13 @@ public class TermsOfServiceFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            toolbar.setTitle(R.string.terms_of_service);
+            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
         }
 
         TextView contentTextView = view.findViewById(R.id.contentTextView);
@@ -35,7 +41,7 @@ public class TermsOfServiceFragment extends Fragment {
 
     private String getTermsOfServiceContent() {
         return "利用規約\n\n" +
-                "最終更新日: 2024年1月1日\n\n" +
+                "最終更新日: 2025年11月9日\n\n" +
                 "第1条（適用）\n" +
                 "本規約は、本アプリの利用に関して、アプリ提供者（以下「当方」といいます）とユーザーとの間の権利義務関係を定めることを目的とし、ユーザーと当方との間の本アプリの利用に関わる一切の関係に適用されるものとします。\n\n" +
                 "第2条（利用登録）\n" +
@@ -69,4 +75,3 @@ public class TermsOfServiceFragment extends Fragment {
                 "本規約の解釈にあたっては、日本法を準拠法とします。本アプリに関して紛争が生じた場合には、当方の本店所在地を管轄する裁判所を専属的合意管轄とします。";
     }
 }
-

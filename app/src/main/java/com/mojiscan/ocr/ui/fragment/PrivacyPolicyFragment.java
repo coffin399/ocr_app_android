@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.mojiscan.ocr.R;
 
 public class PrivacyPolicyFragment extends Fragment {
+    private NavController navController;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,10 +26,13 @@ public class PrivacyPolicyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            toolbar.setTitle(R.string.privacy_policy);
+            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
         }
 
         TextView contentTextView = view.findViewById(R.id.contentTextView);
@@ -35,7 +41,7 @@ public class PrivacyPolicyFragment extends Fragment {
 
     private String getPrivacyPolicyContent() {
         return "プライバシーポリシー\n\n" +
-                "最終更新日: 2024年1月1日\n\n" +
+                "最終更新日: 2025年11月9日\n\n" +
                 "1. はじめに\n" +
                 "本プライバシーポリシーは、本アプリ（以下「本アプリ」といいます。）の利用において、ユーザーの個人情報がどのように取り扱われるかを説明するものです。\n\n" +
                 "2. 収集する情報\n" +
@@ -72,4 +78,3 @@ public class PrivacyPolicyFragment extends Fragment {
                 "当方は、必要に応じて、本プライバシーポリシーを変更することがあります。変更があった場合には、アプリ内で通知いたします。";
     }
 }
-

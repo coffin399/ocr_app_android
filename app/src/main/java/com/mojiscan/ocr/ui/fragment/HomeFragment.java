@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyTextView;
     private TextInputEditText searchEditText;
+    private NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,11 +52,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         viewModel = new ViewModelProvider(this).get(TranscriptionViewModel.class);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            toolbar.setTitle(R.string.app_name);
         }
 
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -63,11 +67,9 @@ public class HomeFragment extends Fragment {
 
         adapter = new TranscriptionAdapter();
         adapter.setOnItemClickListener(transcription -> {
-            if (getView() != null) {
-                HomeFragmentDirections.ActionHomeFragmentToDetailFragment action =
-                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(transcription.getId());
-                Navigation.findNavController(getView()).navigate(action);
-            }
+            Bundle bundle = new Bundle();
+            bundle.putLong("id", transcription.getId());
+            navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle);
         });
         adapter.setOnDeleteClickListener(transcription -> {
             viewModel.deleteTranscription(transcription.getId());
@@ -78,9 +80,7 @@ public class HomeFragment extends Fragment {
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
-            if (getView() != null) {
-                Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_addTranscriptionFragment);
-            }
+            navController.navigate(R.id.action_homeFragment_to_addTranscriptionFragment);
         });
 
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -117,12 +117,9 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            if (getView() != null) {
-                Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_settingsFragment);
-            }
+            navController.navigate(R.id.action_homeFragment_to_settingsFragment);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 }
-

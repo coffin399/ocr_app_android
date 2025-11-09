@@ -18,13 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import com.mojiscan.ocr.R;
 import com.mojiscan.ocr.data.entity.TranscriptionEntity;
 import com.mojiscan.ocr.ui.viewmodel.TranscriptionViewModel;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class DetailFragment extends Fragment {
     private TranscriptionViewModel viewModel;
@@ -57,7 +54,8 @@ public class DetailFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {
             ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
+            toolbar.setTitle("詳細");
+            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
         }
 
         titleTextView = view.findViewById(R.id.titleTextView);
@@ -69,12 +67,14 @@ public class DetailFragment extends Fragment {
 
         long id = 0;
         if (getArguments() != null) {
-            id = DetailFragmentArgs.fromBundle(getArguments()).getId();
+            id = getArguments().getLong("id", 0);
         }
-        transcription = viewModel.getTranscriptionById(id);
-
-        if (transcription != null) {
-            displayTranscription(transcription);
+        
+        if (id > 0) {
+            transcription = viewModel.getTranscriptionById(id);
+            if (transcription != null) {
+                displayTranscription(transcription);
+            }
         }
     }
 
@@ -121,4 +121,3 @@ public class DetailFragment extends Fragment {
         startActivity(Intent.createChooser(intent, "共有"));
     }
 }
-
