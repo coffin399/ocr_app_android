@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,11 +69,14 @@ public class HomeFragment extends Fragment {
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null && toolbar != null) {
-            try {
-                ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-                toolbar.setTitle(R.string.app_name);
-            } catch (Exception e) {
-                e.printStackTrace();
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            if (activity.getSupportActionBar() == null) {
+                try {
+                    activity.setSupportActionBar(toolbar);
+                    toolbar.setTitle(R.string.app_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
