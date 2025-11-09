@@ -97,5 +97,18 @@ public class TranscriptionViewModel extends AndroidViewModel {
     public void setLoading(boolean loading) {
         isLoading.setValue(loading);
     }
+
+    public void refreshTranscriptions() {
+        // Repositoryから最新のデータを取得（LiveDataが自動的に更新される）
+        // 実際の実装では、必要に応じてリポジトリのリフレッシュメソッドを呼び出す
+        if (repository != null && allTranscriptions != null) {
+            // LiveDataが自動的に最新のデータを反映するため、特に何もする必要はない
+            // ただし、UIのリフレッシュを示すために、searchQueryを再設定する
+            String currentQuery = searchQuery.getValue();
+            if (currentQuery != null) {
+                searchQuery.setValue(currentQuery);
+            }
+        }
+    }
 }
 

@@ -20,6 +20,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mojiscan.ocr.R;
@@ -33,9 +34,10 @@ public class HomeFragment extends Fragment {
     private TranscriptionViewModel viewModel;
     private TranscriptionAdapter adapter;
     private RecyclerView recyclerView;
-    private TextView emptyTextView;
+    private View emptyTextView;
     private TextInputEditText searchEditText;
     private NavController navController;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,9 +84,10 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        emptyTextView = view.findViewById(R.id.emptyTextView);
-        searchEditText = view.findViewById(R.id.searchEditText);
+                recyclerView = view.findViewById(R.id.recyclerView);
+                emptyTextView = view.findViewById(R.id.emptyTextView);
+                searchEditText = view.findViewById(R.id.searchEditText);
+                swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         if (recyclerView == null || emptyTextView == null || searchEditText == null) {
             return;
@@ -152,6 +155,17 @@ public class HomeFragment extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyTextView.setVisibility(View.GONE);
                     }
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+            });
+        }
+
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                if (viewModel != null) {
+                    viewModel.refreshTranscriptions();
                 }
             });
         }

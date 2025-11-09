@@ -4,11 +4,34 @@
     <!-- より明るい青で、ドキュメントとテキストが映えるように -->
     <color name="ic_launcher_background">#1976D2</color>
     
-    <!-- テーマカラー -->
+    <!-- Material Design 3 カラーパレット -->
+    <!-- Primary Colors -->
     <color name="primary_blue">#2196F3</color>
     <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#64B5F6</color>
     <color name="accent">#03A9F4</color>
-    <color name="error">#F44336</color>
+    
+    <!-- Surface Colors -->
     <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+    <color name="background">#FAFAFA</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+    
+    <!-- Status Colors -->
+    <color name="error">#F44336</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="info">#2196F3</color>
+    
+    <!-- Divider -->
+    <color name="divider">#E0E0E0</color>
+    
+    <!-- Ripple/Overlay -->
+    <color name="ripple">#1F000000</color>
+    <color name="overlay">#33000000</color>
 </resources>
 

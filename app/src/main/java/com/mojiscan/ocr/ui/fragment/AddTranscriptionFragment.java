@@ -35,10 +35,13 @@ public class AddTranscriptionFragment extends Fragment {
     private AudioRecorder audioRecorder;
     private NavController navController;
     
-    private Button selectFileButton;
-    private Button selectAudioButton;
-    private Button recordAudioButton;
-    private Button stopRecordingButton;
+            private View selectFileButton;
+            private View selectAudioButton;
+            private View recordAudioButton;
+            private Button stopRecordingButton;
+            private com.google.android.material.card.MaterialCardView selectFileCard;
+            private com.google.android.material.card.MaterialCardView selectAudioCard;
+            private com.google.android.material.card.MaterialCardView recordAudioCard;
     private MaterialCardView errorCard;
     private TextView errorTextView;
     private MaterialCardView processingCard;
@@ -122,22 +125,66 @@ public class AddTranscriptionFragment extends Fragment {
         processingCard = view.findViewById(R.id.processingCard);
         processingTextView = view.findViewById(R.id.processingTextView);
 
-        selectFileButton.setOnClickListener(v -> openFilePicker());
-        selectAudioButton.setOnClickListener(v -> openAudioFilePicker());
-        recordAudioButton.setOnClickListener(v -> startRecording());
+        // Find parent cards for click listeners
+        if (selectFileButton != null && selectFileButton.getParent() != null) {
+            View parent = (View) selectFileButton.getParent();
+            if (parent.getParent() != null) {
+                selectFileCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
+            }
+        }
+        if (selectAudioButton != null && selectAudioButton.getParent() != null) {
+            View parent = (View) selectAudioButton.getParent();
+            if (parent.getParent() != null) {
+                selectAudioCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
+            }
+        }
+        if (recordAudioButton != null && recordAudioButton.getParent() != null) {
+            View parent = (View) recordAudioButton.getParent();
+            if (parent.getParent() != null) {
+                recordAudioCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
+            }
+        }
+
+        if (selectFileCard != null) {
+            selectFileCard.setOnClickListener(v -> openFilePicker());
+        }
+        if (selectAudioCard != null) {
+            selectAudioCard.setOnClickListener(v -> openAudioFilePicker());
+        }
+        if (recordAudioCard != null) {
+            recordAudioCard.setOnClickListener(v -> checkAndStartRecording());
+        }
         stopRecordingButton.setOnClickListener(v -> stopRecording());
 
         apiViewModel.getIsProcessing().observe(getViewLifecycleOwner(), isProcessing -> {
             if (isProcessing) {
                 processingCard.setVisibility(View.VISIBLE);
-                selectFileButton.setEnabled(false);
-                selectAudioButton.setEnabled(false);
-                recordAudioButton.setEnabled(false);
+                if (selectFileCard != null) {
+                    selectFileCard.setClickable(false);
+                    selectFileCard.setAlpha(0.5f);
+                }
+                if (selectAudioCard != null) {
+                    selectAudioCard.setClickable(false);
+                    selectAudioCard.setAlpha(0.5f);
+                }
+                if (recordAudioCard != null) {
+                    recordAudioCard.setClickable(false);
+                    recordAudioCard.setAlpha(0.5f);
+                }
             } else {
                 processingCard.setVisibility(View.GONE);
-                selectFileButton.setEnabled(true);
-                selectAudioButton.setEnabled(true);
-                recordAudioButton.setEnabled(true);
+                if (selectFileCard != null) {
+                    selectFileCard.setClickable(true);
+                    selectFileCard.setAlpha(1.0f);
+                }
+                if (selectAudioCard != null) {
+                    selectAudioCard.setClickable(true);
+                    selectAudioCard.setAlpha(1.0f);
+                }
+                if (recordAudioCard != null) {
+                    recordAudioCard.setClickable(true);
+                    recordAudioCard.setAlpha(1.0f);
+                }
             }
         });
 
@@ -158,10 +205,10 @@ public class AddTranscriptionFragment extends Fragment {
 
         audioRecorder.getIsRecording().observe(getViewLifecycleOwner(), isRecording -> {
             if (isRecording) {
-                recordAudioButton.setVisibility(View.GONE);
+                if (recordAudioCard != null) recordAudioCard.setVisibility(View.GONE);
                 stopRecordingButton.setVisibility(View.VISIBLE);
             } else {
-                recordAudioButton.setVisibility(View.VISIBLE);
+                if (recordAudioCard != null) recordAudioCard.setVisibility(View.VISIBLE);
                 stopRecordingButton.setVisibility(View.GONE);
             }
         });
@@ -180,12 +227,16 @@ public class AddTranscriptionFragment extends Fragment {
         audioPickerLauncher.launch("audio/*");
     }
 
-    private void startRecording() {
+    private void checkAndStartRecording() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) 
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
             return;
         }
+        startRecording();
+    }
+
+    private void startRecording() {
         audioRecorder.startRecording();
     }
 
