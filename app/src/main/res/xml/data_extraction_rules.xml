@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Exclude Room database files -->
+        <exclude domain="database" path="ocr_database" />
+    </cloud-backup>
+</data-extraction-rules>
+

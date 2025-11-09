@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">文字起こしアプリ</string>
+    <string name="search_hint">タイトルや内容を検索</string>
+    <string name="add_transcription">文字起こしを追加</string>
+    <string name="add_file">ファイルを追加</string>
+    <string name="record_audio">音声を録音</string>
+    <string name="stop_recording">録音を停止</string>
+    <string name="processing">処理中...</string>
+    <string name="error">エラーが発生しました</string>
+    <string name="no_items">文字起こしがありません</string>
+    <string name="delete">削除</string>
+    <string name="share">共有</string>
+    <string name="copy">コピー</string>
+    <string name="settings">設定</string>
+    <string name="update_info">アップデート情報</string>
+    <string name="feedback">ご要望受付フォーム</string>
+    <string name="data_handling">データの取り扱いについて</string>
+    <string name="terms_of_service">利用規約</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="about">アプリについて</string>
+    <string name="version">バージョン</string>
+    <string name="github_url">https://github.com/yourusername/ocr_app_android</string>
+    <string name="feedback_url">https://forms.gle/your-feedback-form</string>
+</resources>
+
