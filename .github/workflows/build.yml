@@ -90,26 +90,50 @@ jobs:
           TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
           if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Tag $TAG_NAME already exists"
+            echo "Tag $TAG_NAME already exists, will overwrite"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
             echo "Tag $TAG_NAME does not exist, will create it"
           fi
       
+      - name: Delete existing tag if exists
+        if: steps.check_tag.outputs.exists == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
+          git push origin --delete "$TAG_NAME" || echo "Tag $TAG_NAME does not exist on remote"
+      
+      - name: Delete existing release if exists
+        if: steps.check_tag.outputs.exists == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
+          # GitHub APIを使って既存のリリースを削除
+          RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME" \
+            | grep -o '"id":[0-9]*' | head -1 | cut -d':' -f2)
+          if [ -n "$RELEASE_ID" ]; then
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID" || true
+            echo "Deleted existing release $TAG_NAME"
+          else
+            echo "Release $TAG_NAME does not exist"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Create tag
-        if: steps.check_tag.outputs.exists == 'false' && github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
           VERSION_NAME="${{ steps.extract_version.outputs.version_name }}"
           VERSION_CODE="${{ steps.extract_version.outputs.version_code }}"
           
-          # タグを作成
+          # タグを作成（既存のタグを上書き）
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG_NAME" -m "Open Beta Release $TAG_NAME (Version Code: $VERSION_CODE)"
-          git push origin "$TAG_NAME"
+          git tag -fa "$TAG_NAME" -m "Open Beta Release $TAG_NAME (Version Code: $VERSION_CODE)"
+          git push origin "$TAG_NAME" --force
           
-          echo "Created and pushed tag: $TAG_NAME"
+          echo "Created/updated and pushed tag: $TAG_NAME"
       
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -119,7 +143,7 @@ jobs:
           retention-days: 30
       
       - name: Create Release
-        if: steps.check_tag.outputs.exists == 'false' && github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v1
         with:
           files: app/build/outputs/apk/release/app-release.apk
@@ -143,6 +167,7 @@ jobs:
             詳細は [Commits](https://github.com/${{ github.repository }}/commits/${{ steps.extract_version.outputs.tag_name }}) をご覧ください。
           draft: false
           prerelease: false
+          overwrite: true  # 既存のリリースを上書き
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

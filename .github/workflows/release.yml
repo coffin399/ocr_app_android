@@ -112,6 +112,24 @@ jobs:
           echo "$NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
       
+      - name: Delete existing release if exists
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          # GitHub APIを使って既存のリリースを削除
+          RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME" \
+            | grep -o '"id":[0-9]*' | head -1 | cut -d':' -f2)
+          if [ -n "$RELEASE_ID" ]; then
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID" || true
+            echo "Deleted existing release $TAG_NAME"
+          else
+            echo "Release $TAG_NAME does not exist"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
@@ -121,6 +139,7 @@ jobs:
           body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: false
+          overwrite: true  # 既存のリリースを上書き
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
