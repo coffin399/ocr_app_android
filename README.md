@@ -136,6 +136,23 @@ Android向けのOCR・音声文字起こしアプリです。画像や音声フ�
 
 詳細は、アプリ内の「設定」→「データの取り扱いについて」をご覧ください。
 
+## 🚀 リリース
+
+このプロジェクトでは、GitHub Actionsを使用してAPKを自動ビルド・リリースしています。
+
+### リリース方法
+
+1. バージョン番号を更新（`app/build.gradle`の`versionCode`と`versionName`）
+2. 変更をコミット・プッシュ
+3. タグを作成してプッシュ
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+4. GitHub Actionsが自動的にAPKをビルドしてGitHub Releasesにアップロード
+
+詳細は [.github/RELEASE_WORKFLOW.md](.github/RELEASE_WORKFLOW.md) をご覧ください。
+
 ## 🤝 コントリビューション
 
 コントリビューションを歓迎します！以下の方法で貢献できます：
