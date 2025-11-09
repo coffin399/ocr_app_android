@@ -135,39 +135,64 @@ jobs:
           
           echo "Created/updated and pushed tag: $TAG_NAME"
       
+      - name: Verify APK exists
+        if: github.ref == 'refs/heads/main'
+        run: |
+          APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "APK file not found at $APK_PATH"
+            echo "Listing contents of app/build/outputs/apk/release/:"
+            ls -la app/build/outputs/apk/release/ || echo "Directory does not exist"
+            echo "Listing contents of app/build/outputs/apk/:"
+            ls -la app/build/outputs/apk/ || echo "Directory does not exist"
+            exit 1
+          fi
+          echo "APK file found: $APK_PATH"
+          ls -lh "$APK_PATH"
+      
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: app/build/outputs/apk/release/app-release.apk
           retention-days: 30
+        continue-on-error: true
       
       - name: Create Release
         if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: app/build/outputs/apk/release/app-release.apk
-          tag_name: ${{ steps.extract_version.outputs.tag_name }}
-          name: ${{ steps.extract_version.outputs.tag_name }}
-          body: |
-            ## リリース内容
-            
-            - Version: ${{ steps.extract_version.outputs.version_name }} (Code: ${{ steps.extract_version.outputs.version_code }})
-            - APKファイルをダウンロードしてインストールできます
-            
-            ## インストール方法
-            
-            1. APKファイルをダウンロード
-            2. Androidデバイスに転送
-            3. 「不明なソースからのインストール」を許可
-            4. APKファイルをタップしてインストール
-            
-            ## 変更履歴
-            
-            詳細は [Commits](https://github.com/${{ github.repository }}/commits/${{ steps.extract_version.outputs.tag_name }}) をご覧ください。
-          draft: false
-          prerelease: false
-          overwrite: true  # 既存のリリースを上書き
+        run: |
+          APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "Error: APK file not found at $APK_PATH"
+            exit 1
+          fi
+          
+          TAG_NAME="${{ steps.extract_version.outputs.tag_name }}"
+          VERSION_NAME="${{ steps.extract_version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.extract_version.outputs.version_code }}"
+          
+          # GitHub CLIを使ってリリースを作成
+          gh release create "$TAG_NAME" \
+            --title "$TAG_NAME" \
+            --notes "## リリース内容
+
+- Version: $VERSION_NAME (Code: $VERSION_CODE)
+- APKファイルをダウンロードしてインストールできます
+
+## インストール方法
+
+1. APKファイルをダウンロード
+2. Androidデバイスに転送
+3. 「不明なソースからのインストール」を許可
+4. APKファイルをタップしてインストール
+
+## 変更履歴
+
+詳細は [Commits](https://github.com/${{ github.repository }}/commits/$TAG_NAME) をご覧ください。" \
+            "$APK_PATH" \
+            --repo "${{ github.repository }}" \
+            --latest \
+            --prerelease=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
