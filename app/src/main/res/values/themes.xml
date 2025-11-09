@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme using AppCompat -->
-    <style name="Theme.OCRApp" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Base application theme using Material Components -->
+    <style name="Theme.OCRApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color -->
         <item name="colorPrimary">@color/primary_blue</item>
         <!-- Darker variant of primary color -->
@@ -12,7 +12,4 @@
         <item name="android:statusBarColor">@color/primary_dark</item>
     </style>
 
-    <!-- Theme overlay for dark action bar -->
-    <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    </style>
 </resources>
