@@ -19,7 +19,7 @@
     <string name="terms_of_service">利用規約</string>
     <string name="privacy_policy">プライバシーポリシー</string>
     <string name="about">アプリについて</string>
-    <string name="version">バージョン</string>
+    <string name="version">バージョン 1.0.0</string>
     <string name="github_url">https://github.com/yourusername/ocr_app_android</string>
     <string name="feedback_url">https://forms.gle/your-feedback-form</string>
     <string name="donation">開発を支援する</string>
@@ -37,4 +37,3 @@
     <string name="yen">円</string>
     <string name="donation_note">ご寄付は任意です。アプリの機能は無料でご利用いただけます。</string>
 </resources>
-
