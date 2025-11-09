@@ -60,14 +60,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/update_info"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -76,7 +76,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutline" />
+                android:background="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/feedbackCard"
@@ -106,14 +106,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/feedback"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -122,7 +122,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutline" />
+                android:background="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/donationCard"
@@ -152,14 +152,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/donation"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -168,7 +168,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutline" />
+                android:background="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/dataHandlingCard"
@@ -198,14 +198,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/data_handling"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -214,7 +214,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutline" />
+                android:background="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/termsOfServiceCard"
@@ -244,14 +244,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/terms_of_service"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -260,7 +260,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutline" />
+                android:background="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/privacyPolicyCard"
@@ -290,14 +290,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/privacy_policy"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBody1" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -307,9 +307,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/version 1.0.0"
-                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:text="@string/version"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="?android:attr/textColorSecondary"
                 android:gravity="center" />
 
         </LinearLayout>
@@ -317,4 +317,3 @@
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://mojiscan.online/";
+    // 個人用プライベートAPI - ベースURLは環境変数または設定ファイルから読み込むことを推奨
+    private static final String BASE_URL = "https://your-private-api-server.com/";
     private static RetrofitClient instance;
     private ApiService apiService;
 

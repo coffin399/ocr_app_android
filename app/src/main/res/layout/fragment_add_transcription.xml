@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@string/add_transcription"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold" />
 
             <TextView
@@ -57,23 +57,23 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="@string/donation_description"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/donation_note"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textColor="?android:attr/textColorSecondary"
                     android:gravity="center" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -85,15 +85,15 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorErrorContainer">
+                app:cardBackgroundColor="?attr/colorError">
 
                 <TextView
                     android:id="@+id/errorTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="?attr/colorOnErrorContainer" />
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="@android:color/white" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -104,7 +104,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer">
+                app:cardBackgroundColor="?attr/colorPrimary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,14 +116,16 @@
                     <ProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:indeterminateTint="@android:color/white" />
 
                     <TextView
                         android:id="@+id/processingTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/processing"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@android:color/white" />
 
                 </LinearLayout>
 
@@ -135,7 +137,7 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/add_file"
-                style="@style/Widget.Material3.Button" />
+                style="@style/Widget.MaterialComponents.Button" />
 
             <Button
                 android:id="@+id/selectAudioButton"
@@ -143,14 +145,14 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:text="音声ファイルを選択"
-                style="@style/Widget.Material3.Button" />
+                style="@style/Widget.MaterialComponents.Button" />
 
             <Button
                 android:id="@+id/recordAudioButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="@string/record_audio"
-                style="@style/Widget.Material3.Button" />
+                style="@style/Widget.MaterialComponents.Button" />
 
             <Button
                 android:id="@+id/stopRecordingButton"
@@ -159,7 +161,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/stop_recording"
                 android:visibility="gone"
-                style="@style/Widget.Material3.Button"
+                style="@style/Widget.MaterialComponents.Button"
                 app:backgroundTint="?attr/colorError" />
 
         </LinearLayout>
@@ -167,4 +169,3 @@
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

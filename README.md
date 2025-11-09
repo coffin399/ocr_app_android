@@ -12,8 +12,8 @@ Android向けのOCR・音声文字起こしアプリです。
 
 ## 技術スタック
 
-- **言語**: Kotlin
-- **UI**: Jetpack Compose
+- **言語**: Java
+- **UI**: Material Design Components (従来のViewシステム)
 - **アーキテクチャ**: MVVM
 - **データベース**: Room
 - **ネットワーク**: Retrofit2, OkHttp3
@@ -30,31 +30,27 @@ Android向けのOCR・音声文字起こしアプリです。
 
 1. リポジトリをクローン
 ```bash
-git clone https://github.com/yourusername/ocr_app_android.git
+git clone <your-private-repo-url>
 cd ocr_app_android
 ```
 
-2. Android Studioで開く
+2. API設定（必須）
+   - `app/src/main/java/com/mojiscan/ocr/network/RetrofitClient.java` の `BASE_URL` を個人用APIサーバーのURLに変更してください。
 
-3. ビルド
+3. Android Studioで開く
+
+4. ビルド
 ```bash
 ./gradlew build
 ```
 
-4. 実行
+5. 実行
 - Android Studioから実行
 - または `./gradlew installDebug` でデバイスにインストール
 
 ## API設定
 
-アプリは以下のAPIエンドポイントを使用します:
-
-- ベースURL: `https://mojiscan.online/`
-- OCRエンドポイント: `/api/v1/ocr`
-- 文字起こしエンドポイント: `/api/v1/transcribe`
-- 自動判定エンドポイント: `/api/v1/process`
-
-APIの詳細については、[API_DOCUMENTATION.md](./API_DOCUMENTATION.md) を参照してください。
+このアプリは個人用のプライベートAPIを使用しています。APIの詳細は非公開です。
 
 ## ビルド設定
 
@@ -89,13 +85,13 @@ app/
 │       │   ├── network/            # Retrofit APIクライアント
 │       │   ├── repository/         # リポジトリ
 │       │   ├── ui/
-│       │   │   ├── screen/         # 画面コンポーネント
-│       │   │   ├── viewmodel/      # ViewModel
-│       │   │   ├── navigation/     # ナビゲーション
-│       │   │   └── theme/          # テーマ設定
+│       │   │   ├── fragment/       # Fragmentクラス
+│       │   │   ├── adapter/        # RecyclerViewアダプター
+│       │   │   └── viewmodel/      # ViewModel
+│       │   ├── billing/            # Google Play Billing
 │       │   ├── util/               # ユーティリティ
-│       │   ├── MainActivity.kt
-│       │   └── OcrApplication.kt
+│       │   ├── MainActivity.java
+│       │   └── OcrApplication.java
 │       └── res/                    # リソースファイル
 └── build.gradle
 ```
@@ -104,18 +100,18 @@ app/
 
 MIT License
 
-## 貢献
+## 注意事項
 
-プルリクエストを歓迎します。大きな変更の場合は、まずissueを開いて変更内容を議論してください。
+このリポジトリは個人用のプライベートリポジトリです。APIエンドポイントや設定情報は非公開です。
 
 ## 作者
 
-[あなたの名前]
+coffin299
 
 ## 謝辞
 
-- Google Gemini API
-- Jetpack Compose
+- Google Gemini API (非公開サーバー経由)
+- Material Design Components
 - Retrofit2
 - Room Database
 
