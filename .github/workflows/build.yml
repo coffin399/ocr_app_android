@@ -171,10 +171,9 @@ jobs:
           VERSION_NAME="${{ steps.extract_version.outputs.version_name }}"
           VERSION_CODE="${{ steps.extract_version.outputs.version_code }}"
           
-          # GitHub CLIを使ってリリースを作成
-          gh release create "$TAG_NAME" \
-            --title "$TAG_NAME" \
-            --notes "## リリース内容
+          # リリースノートを準備
+          RELEASE_NOTES=$(cat <<EOF
+## リリース内容
 
 - Version: $VERSION_NAME (Code: $VERSION_CODE)
 - APKファイルをダウンロードしてインストールできます
@@ -188,7 +187,14 @@ jobs:
 
 ## 変更履歴
 
-詳細は [Commits](https://github.com/${{ github.repository }}/commits/$TAG_NAME) をご覧ください。" \
+詳細は [Commits](https://github.com/${{ github.repository }}/commits/$TAG_NAME) をご覧ください。
+EOF
+)
+          
+          # GitHub CLIを使ってリリースを作成
+          gh release create "$TAG_NAME" \
+            --title "$TAG_NAME" \
+            --notes "$RELEASE_NOTES" \
             "$APK_PATH" \
             --repo "${{ github.repository }}" \
             --latest \
