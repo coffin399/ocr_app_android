@@ -35,16 +35,12 @@ jobs:
       - name: Setup Gradle Wrapper
         if: hashFiles('gradlew') == ''
         run: |
-          mkdir -p gradle/wrapper
-          # Gradle Wrapper JARを正しくダウンロード
-          curl -L https://raw.githubusercontent.com/gradle/gradle/v8.6.0/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
-          # gradlewスクリプトを作成
-          cat > gradlew << 'EOF'
-          #!/bin/sh
-          SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-          exec java -jar "$SCRIPT_DIR/gradle/wrapper/gradle-wrapper.jar" "$@"
-          EOF
-          chmod +x gradlew
+          # Gradleをインストール
+          curl -L https://services.gradle.org/distributions/gradle-8.6-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp/
+          export PATH="/tmp/gradle-8.6/bin:$PATH"
+          # Gradle Wrapperを生成
+          gradle wrapper --gradle-version 8.6 --no-daemon
       
       - name: Grant execute permission for gradlew
         if: hashFiles('gradlew') != ''
