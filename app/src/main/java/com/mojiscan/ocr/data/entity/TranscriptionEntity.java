@@ -1,6 +1,7 @@
 package com.mojiscan.ocr.data.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "transcriptions")
@@ -20,6 +21,7 @@ public class TranscriptionEntity {
         this.timestamp = System.currentTimeMillis();
     }
 
+    @Ignore
     public TranscriptionEntity(String title, String text, String filename, String processType, String model, long timestamp, double processingTime) {
         this.title = title;
         this.text = text;
@@ -107,4 +109,3 @@ public class TranscriptionEntity {
         return Long.hashCode(id);
     }
 }
-
