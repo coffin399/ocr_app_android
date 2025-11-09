@@ -6,13 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.HomeFragment">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent">
+        android:elevation="0dp"
+        app:elevation="0dp"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:focusable="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
@@ -27,7 +38,9 @@
             app:boxBackgroundColor="@color/surface_variant"
             app:startIconDrawable="@android:drawable/ic_menu_search"
             app:startIconTint="@color/text_hint"
-            android:hint="@string/search_hint">
+            android:hint="@string/search_hint"
+            android:clickable="true"
+            android:focusable="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchEditText"
@@ -36,7 +49,10 @@
                 android:inputType="text"
                 android:background="@android:color/transparent"
                 android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint" />
+                android:textColorHint="@color/text_hint"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,14 +65,19 @@
             android:tint="@color/text_primary"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:contentDescription="@string/settings" />
+            android:contentDescription="@string/settings"
+            android:clickable="true"
+            android:focusable="true" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
