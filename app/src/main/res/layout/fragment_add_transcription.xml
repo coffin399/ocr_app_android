@@ -137,7 +137,7 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/add_file"
-                style="@style/Widget.MaterialComponents.Button" />
+ />
 
             <Button
                 android:id="@+id/selectAudioButton"
@@ -145,14 +145,14 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:text="音声ファイルを選択"
-                style="@style/Widget.MaterialComponents.Button" />
+ />
 
             <Button
                 android:id="@+id/recordAudioButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="@string/record_audio"
-                style="@style/Widget.MaterialComponents.Button" />
+ />
 
             <Button
                 android:id="@+id/stopRecordingButton"
@@ -161,7 +161,6 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/stop_recording"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.Button"
                 app:backgroundTint="?attr/colorError" />
 
         </LinearLayout>
