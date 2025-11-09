@@ -15,7 +15,7 @@ public interface TranscriptionDao {
     LiveData<List<TranscriptionEntity>> searchTranscriptions(String query);
 
     @Query("SELECT * FROM transcriptions WHERE id = :id")
-    TranscriptionEntity getTranscriptionById(long id);
+    LiveData<TranscriptionEntity> getTranscriptionById(long id);
 
     @Insert
     long insertTranscription(TranscriptionEntity transcription);

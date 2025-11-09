@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-        viewModel = new ViewModelProvider(this).get(TranscriptionViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null) {

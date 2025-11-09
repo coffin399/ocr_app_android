@@ -77,14 +77,16 @@ public class TranscriptionAdapter extends ListAdapter<TranscriptionEntity, Trans
             deleteButton = itemView.findViewById(R.id.deleteButton);
 
             itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    onItemClickListener.onItemClick(getItem(position));
                 }
             });
 
             deleteButton.setOnClickListener(v -> {
-                if (onDeleteClickListener != null) {
-                    onDeleteClickListener.onDeleteClick(getItem(getAdapterPosition()));
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onDeleteClickListener != null) {
+                    onDeleteClickListener.onDeleteClick(getItem(position));
                 }
             });
         }

@@ -28,7 +28,7 @@ public class TranscriptionRepository {
         return transcriptionDao.searchTranscriptions(query);
     }
 
-    public TranscriptionEntity getTranscriptionById(long id) {
+    public LiveData<TranscriptionEntity> getTranscriptionById(long id) {
         return transcriptionDao.getTranscriptionById(id);
     }
 

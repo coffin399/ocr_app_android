@@ -69,13 +69,10 @@ public class TranscriptionViewModel extends AndroidViewModel {
     }
 
     public void deleteTranscription(long id) {
-        TranscriptionEntity transcription = repository.getTranscriptionById(id);
-        if (transcription != null) {
-            repository.deleteTranscription(transcription);
-        }
+        repository.deleteTranscriptionById(id);
     }
 
-    public TranscriptionEntity getTranscriptionById(long id) {
+    public LiveData<TranscriptionEntity> getTranscriptionById(long id) {
         return repository.getTranscriptionById(id);
     }
 

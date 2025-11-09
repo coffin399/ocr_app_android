@@ -71,10 +71,12 @@ public class DetailFragment extends Fragment {
         }
         
         if (id > 0) {
-            transcription = viewModel.getTranscriptionById(id);
-            if (transcription != null) {
-                displayTranscription(transcription);
-            }
+            viewModel.getTranscriptionById(id).observe(getViewLifecycleOwner(), entity -> {
+                if (entity != null) {
+                    transcription = entity;
+                    displayTranscription(transcription);
+                }
+            });
         }
     }
 
