@@ -52,10 +52,20 @@ public class DetailFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null) {
-            ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setTitle("詳細");
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+        if (getActivity() != null && toolbar != null) {
+            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
+            if (activity.getSupportActionBar() == null) {
+                try {
+                    activity.setSupportActionBar(toolbar);
+                    toolbar.setTitle("詳細");
+                    toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                toolbar.setTitle("詳細");
+                toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+            }
         }
 
         titleTextView = view.findViewById(R.id.titleTextView);

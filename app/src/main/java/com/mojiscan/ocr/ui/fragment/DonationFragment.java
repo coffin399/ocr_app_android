@@ -52,10 +52,20 @@ public class DonationFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(DonationViewModel.class);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null) {
-            ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setTitle(R.string.donation_title);
-            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+        if (getActivity() != null && toolbar != null) {
+            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
+            if (activity.getSupportActionBar() == null) {
+                try {
+                    activity.setSupportActionBar(toolbar);
+                    toolbar.setTitle(R.string.donation_title);
+                    toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                toolbar.setTitle(R.string.donation_title);
+                toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+            }
         }
 
         amountEditText = view.findViewById(R.id.amountEditText);

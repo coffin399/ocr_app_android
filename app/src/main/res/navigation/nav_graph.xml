@@ -42,7 +42,20 @@
         android:id="@+id/settingsFragment"
         android:name="com.mojiscan.ocr.ui.fragment.SettingsFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_donationFragment"
+            app:destination="@id/donationFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_dataHandlingFragment"
+            app:destination="@id/dataHandlingFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_termsOfServiceFragment"
+            app:destination="@id/termsOfServiceFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/dataHandlingFragment"

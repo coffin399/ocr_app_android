@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (getActivity() != null && toolbar != null) {
-            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() == null) {
                 try {
                     activity.setSupportActionBar(toolbar);
@@ -77,6 +77,8 @@ public class HomeFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else {
+                toolbar.setTitle(R.string.app_name);
             }
         }
 

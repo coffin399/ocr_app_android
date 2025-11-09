@@ -31,10 +31,20 @@ public class SettingsFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null) {
-            ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setTitle(R.string.settings);
-            toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+        if (getActivity() != null && toolbar != null) {
+            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
+            if (activity.getSupportActionBar() == null) {
+                try {
+                    activity.setSupportActionBar(toolbar);
+                    toolbar.setTitle(R.string.settings);
+                    toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                toolbar.setTitle(R.string.settings);
+                toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
+            }
         }
 
         MaterialCardView updateInfoCard = view.findViewById(R.id.updateInfoCard);

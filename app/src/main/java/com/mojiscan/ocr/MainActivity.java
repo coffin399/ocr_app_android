@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_main);
+            // Hide ActionBar if it exists (shouldn't with NoActionBar theme, but just in case)
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
             requestPermissions();
         } catch (Exception e) {
             e.printStackTrace();
