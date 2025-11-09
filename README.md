@@ -4,7 +4,7 @@ Android向けのOCR・音声文字起こしアプリです。画像や音声フ�
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-green.svg)](https://www.android.com/)
-[![Java](https://img.shields.io/badge/Java-11-orange.svg)](https://www.java.com/)
+[![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.java.com/)
 
 ## 🎯 プロジェクト概要
 
@@ -66,7 +66,7 @@ Android向けのOCR・音声文字起こしアプリです。画像や音声フ�
 
 ## 🛠️ 技術スタック
 
-- **言語**: Java 11
+- **言語**: Java 17+
 - **UI**: Material Design Components
 - **アーキテクチャ**: MVVM (Model-View-ViewModel)
 - **データベース**: Room Database
