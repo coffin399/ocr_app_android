@@ -21,27 +21,34 @@ public class TranscriptionViewModel extends AndroidViewModel {
 
     public TranscriptionViewModel(Application application) {
         super(application);
-        repository = new TranscriptionRepository(application);
-        allTranscriptions = repository.getAllTranscriptions();
-        
-        transcriptions = Transformations.switchMap(searchQuery, query -> {
-            if (query == null || query.trim().isEmpty()) {
-                return allTranscriptions;
-            } else {
-                return Transformations.map(allTranscriptions, items -> {
-                    if (items == null) return new ArrayList<>();
-                    List<TranscriptionEntity> filtered = new ArrayList<>();
-                    String lowerQuery = query.toLowerCase();
-                    for (TranscriptionEntity item : items) {
-                        if (item.getTitle() != null && item.getTitle().toLowerCase().contains(lowerQuery) ||
-                            item.getText() != null && item.getText().toLowerCase().contains(lowerQuery)) {
-                            filtered.add(item);
+        try {
+            repository = new TranscriptionRepository(application);
+            allTranscriptions = repository.getAllTranscriptions();
+            
+            transcriptions = Transformations.switchMap(searchQuery, query -> {
+                if (query == null || query.trim().isEmpty()) {
+                    return allTranscriptions;
+                } else {
+                    return Transformations.map(allTranscriptions, items -> {
+                        if (items == null) return new ArrayList<>();
+                        List<TranscriptionEntity> filtered = new ArrayList<>();
+                        String lowerQuery = query.toLowerCase();
+                        for (TranscriptionEntity item : items) {
+                            if (item.getTitle() != null && item.getTitle().toLowerCase().contains(lowerQuery) ||
+                                item.getText() != null && item.getText().toLowerCase().contains(lowerQuery)) {
+                                filtered.add(item);
+                            }
                         }
-                    }
-                    return filtered;
-                });
-            }
-        });
+                        return filtered;
+                    });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Fallback: create empty LiveData
+            allTranscriptions = new MutableLiveData<>(new ArrayList<>());
+            transcriptions = new MutableLiveData<>(new ArrayList<>());
+        }
     }
 
     public LiveData<List<TranscriptionEntity>> getTranscriptions() {
@@ -65,15 +72,22 @@ public class TranscriptionViewModel extends AndroidViewModel {
     }
 
     public void addTranscription(TranscriptionEntity transcription) {
-        repository.insertTranscription(transcription);
+        if (repository != null) {
+            repository.insertTranscription(transcription);
+        }
     }
 
     public void deleteTranscription(long id) {
-        repository.deleteTranscriptionById(id);
+        if (repository != null) {
+            repository.deleteTranscriptionById(id);
+        }
     }
 
     public LiveData<TranscriptionEntity> getTranscriptionById(long id) {
-        return repository.getTranscriptionById(id);
+        if (repository != null) {
+            return repository.getTranscriptionById(id);
+        }
+        return new MutableLiveData<>(null);
     }
 
     public void clearError() {

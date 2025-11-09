@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        requestPermissions();
+        try {
+            setContentView(R.layout.activity_main);
+            requestPermissions();
+        } catch (Exception e) {
+            e.printStackTrace();
+            finish();
+        }
     }
 
     private void requestPermissions() {

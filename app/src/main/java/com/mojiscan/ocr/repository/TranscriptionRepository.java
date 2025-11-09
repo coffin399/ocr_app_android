@@ -15,9 +15,14 @@ public class TranscriptionRepository {
     private ExecutorService executorService;
 
     public TranscriptionRepository(Application application) {
-        AppDatabase database = AppDatabase.getDatabase(application);
-        transcriptionDao = database.transcriptionDao();
-        executorService = Executors.newSingleThreadExecutor();
+        try {
+            AppDatabase database = AppDatabase.getDatabase(application);
+            transcriptionDao = database.transcriptionDao();
+            executorService = Executors.newSingleThreadExecutor();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to initialize TranscriptionRepository", e);
+        }
     }
 
     public LiveData<List<TranscriptionEntity>> getAllTranscriptions() {

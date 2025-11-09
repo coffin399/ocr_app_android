@@ -52,60 +52,103 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        navController = Navigation.findNavController(view);
-        viewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
+        try {
+            navController = Navigation.findNavController(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            viewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null) {
-            ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setTitle(R.string.app_name);
+        if (getActivity() != null && toolbar != null) {
+            try {
+                ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+                toolbar.setTitle(R.string.app_name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyTextView = view.findViewById(R.id.emptyTextView);
         searchEditText = view.findViewById(R.id.searchEditText);
 
+        if (recyclerView == null || emptyTextView == null || searchEditText == null) {
+            return;
+        }
+
         adapter = new TranscriptionAdapter();
         adapter.setOnItemClickListener(transcription -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong("id", transcription.getId());
-            navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle);
+            if (navController != null) {
+                try {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("id", transcription.getId());
+                    navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
         adapter.setOnDeleteClickListener(transcription -> {
-            viewModel.deleteTranscription(transcription.getId());
+            if (viewModel != null) {
+                viewModel.deleteTranscription(transcription.getId());
+            }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_addTranscriptionFragment);
-        });
+        if (fab != null) {
+            fab.setOnClickListener(v -> {
+                if (navController != null) {
+                    try {
+                        navController.navigate(R.id.action_homeFragment_to_addTranscriptionFragment);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        if (searchEditText != null) {
+            searchEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                viewModel.setSearchQuery(s.toString());
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (viewModel != null) {
+                        viewModel.setSearchQuery(s.toString());
+                    }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        }
 
-        viewModel.getTranscriptions().observe(getViewLifecycleOwner(), transcriptions -> {
-            adapter.submitList(transcriptions);
-            if (transcriptions == null || transcriptions.isEmpty()) {
-                recyclerView.setVisibility(View.GONE);
-                emptyTextView.setVisibility(View.VISIBLE);
-            } else {
-                recyclerView.setVisibility(View.VISIBLE);
-                emptyTextView.setVisibility(View.GONE);
-            }
-        });
+        if (viewModel != null) {
+            viewModel.getTranscriptions().observe(getViewLifecycleOwner(), transcriptions -> {
+                if (adapter != null && recyclerView != null && emptyTextView != null) {
+                    adapter.submitList(transcriptions);
+                    if (transcriptions == null || transcriptions.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyTextView.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -117,7 +160,13 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            navController.navigate(R.id.action_homeFragment_to_settingsFragment);
+            if (navController != null) {
+                try {
+                    navController.navigate(R.id.action_homeFragment_to_settingsFragment);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
