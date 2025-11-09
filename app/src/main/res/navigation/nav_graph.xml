@@ -25,36 +25,36 @@
         <argument
             android:name="id"
             app:argType="long"
-            android:defaultValue="0" />
+            android:defaultValue="0L" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.mojiscan.ocr.ui.fragment.SettingsFragment"
+        android_name="com.mojiscan.ocr.ui.fragment.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/dataHandlingFragment"
-        android:name="com.mojiscan.ocr.ui.fragment.DataHandlingFragment"
+        android_name="com.mojiscan.ocr.ui.fragment.DataHandlingFragment"
         android:label="@string/data_handling"
         tools:layout="@layout/fragment_data_handling" />
 
     <fragment
         android:id="@+id/termsOfServiceFragment"
-        android:name="com.mojiscan.ocr.ui.fragment.TermsOfServiceFragment"
+        android_name="com.mojiscan.ocr.ui.fragment.TermsOfServiceFragment"
         android:label="@string/terms_of_service"
         tools:layout="@layout/fragment_terms_of_service" />
 
     <fragment
         android:id="@+id/privacyPolicyFragment"
-        android:name="com.mojiscan.ocr.ui.fragment.PrivacyPolicyFragment"
+        android_name="com.mojiscan.ocr.ui.fragment.PrivacyPolicyFragment"
         android:label="@string/privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
 
     <fragment
         android:id="@+id/donationFragment"
-        android:name="com.mojiscan.ocr.ui.fragment.DonationFragment"
+        android_name="com.mojiscan.ocr.ui.fragment.DonationFragment"
         android:label="@string/donation_title"
         tools:layout="@layout/fragment_donation" />
 
