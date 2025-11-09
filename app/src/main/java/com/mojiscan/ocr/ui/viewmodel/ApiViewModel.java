@@ -95,8 +95,9 @@ public class ApiViewModel extends AndroidViewModel {
                 MediaType mediaType = MediaType.parse(mimeType);
                 RequestBody requestFile = RequestBody.create(mediaType, targetFile);
                 MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", targetFile.getName(), requestFile);
-                RequestBody processTypePart = processType != null ? 
-                    RequestBody.create(MediaType.parse("text/plain"), processType) : null;
+                // process_typeがnullの場合は"auto"をデフォルト値として使用
+                String finalProcessType = (processType != null && !processType.trim().isEmpty()) ? processType : "auto";
+                RequestBody processTypePart = RequestBody.create(MediaType.parse("text/plain"), finalProcessType);
 
                 processingProgress.postValue("処理中...");
 
@@ -154,6 +155,7 @@ public class ApiViewModel extends AndroidViewModel {
     }
 
     public void processAudioFile(File file, String language, String model, ProcessCallback callback) {
+        // 音声ファイルも/api/v1/processエンドポイントを使用（process_type="transcribe"で明示的に指定）
         executorService.execute(() -> {
             try {
                 isProcessing.postValue(true);
@@ -168,6 +170,7 @@ public class ApiViewModel extends AndroidViewModel {
                     return;
                 }
 
+                // 音声ファイルのMIMEタイプを判定
                 String mimeType;
                 String fileName = file.getName().toLowerCase();
                 if (fileName.endsWith(".m4a")) {
@@ -176,6 +179,16 @@ public class ApiViewModel extends AndroidViewModel {
                     mimeType = "audio/wav";
                 } else if (fileName.endsWith(".mp3")) {
                     mimeType = "audio/mpeg";
+                } else if (fileName.endsWith(".flac")) {
+                    mimeType = "audio/flac";
+                } else if (fileName.endsWith(".ogg")) {
+                    mimeType = "audio/ogg";
+                } else if (fileName.endsWith(".aac")) {
+                    mimeType = "audio/aac";
+                } else if (fileName.endsWith(".webm")) {
+                    mimeType = "audio/webm";
+                } else if (fileName.endsWith(".opus")) {
+                    mimeType = "audio/opus";
                 } else {
                     mimeType = "audio/m4a";
                 }
@@ -183,21 +196,21 @@ public class ApiViewModel extends AndroidViewModel {
                 MediaType mediaType = MediaType.parse(mimeType);
                 RequestBody requestFile = RequestBody.create(mediaType, file);
                 MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                RequestBody languagePart = RequestBody.create(MediaType.parse("text/plain"), language != null ? language : "ja");
-                RequestBody modelPart = RequestBody.create(MediaType.parse("text/plain"), model != null ? model : "whisper");
+                // process_type="transcribe"を明示的に指定
+                RequestBody processTypePart = RequestBody.create(MediaType.parse("text/plain"), "transcribe");
 
                 processingProgress.postValue("文字起こし処理中...");
 
-                apiService.processTranscribe(filePart, languagePart, modelPart).enqueue(new Callback<TranscribeResponse>() {
+                apiService.processFile(filePart, processTypePart).enqueue(new Callback<ProcessResponse>() {
                     @Override
-                    public void onResponse(Call<TranscribeResponse> call, Response<TranscribeResponse> response) {
+                    public void onResponse(Call<ProcessResponse> call, Response<ProcessResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            TranscribeResponse result = response.body();
+                            ProcessResponse result = response.body();
                             TranscriptionEntity transcription = new TranscriptionEntity(
                                 extractTitle(result.getText()),
                                 result.getText(),
                                 result.getFilename(),
-                                "transcribe",
+                                result.getProcessType() != null ? result.getProcessType() : "transcribe",
                                 result.getModel(),
                                 System.currentTimeMillis(),
                                 result.getProcessingTime()
@@ -225,7 +238,7 @@ public class ApiViewModel extends AndroidViewModel {
                     }
 
                     @Override
-                    public void onFailure(Call<TranscribeResponse> call, Throwable t) {
+                    public void onFailure(Call<ProcessResponse> call, Throwable t) {
                         String errorMsg = "エラーが発生しました: " + (t.getMessage() != null ? t.getMessage() : "Unknown error");
                         errorMessage.postValue(errorMsg);
                         isProcessing.postValue(false);

@@ -36,12 +36,29 @@ public class BillingManager implements DefaultLifecycleObserver, PurchasesUpdate
     
     @Override
     public void onBillingSetupFinished(BillingResult billingResult) {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+        int responseCode = billingResult.getResponseCode();
+        if (responseCode == BillingClient.BillingResponseCode.OK) {
             billingState.postValue(BillingState.Ready);
             queryProductDetails();
             queryPurchases();
         } else {
-            billingState.postValue(new BillingState.Error(billingResult.getDebugMessage()));
+            String errorMessage = getErrorMessage(responseCode, billingResult.getDebugMessage());
+            billingState.postValue(new BillingState.Error(errorMessage));
+        }
+    }
+    
+    private String getErrorMessage(int responseCode, String debugMessage) {
+        switch (responseCode) {
+            case BillingClient.BillingResponseCode.BILLING_UNAVAILABLE:
+                return "アプリ内課金が利用できません。Google Play ストアを更新してください。";
+            case BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE:
+                return "サービスが一時的に利用できません。後でもう一度お試しください。";
+            case BillingClient.BillingResponseCode.SERVICE_DISCONNECTED:
+                return "サービスが切断されました。アプリを再起動してください。";
+            case BillingClient.BillingResponseCode.DEVELOPER_ERROR:
+                return "開発者エラー: プロダクトがGoogle Play Consoleで正しく設定されているか確認してください。";
+            default:
+                return debugMessage != null ? debugMessage : "エラーが発生しました (コード: " + responseCode + ")";
         }
     }
     
@@ -64,10 +81,19 @@ public class BillingManager implements DefaultLifecycleObserver, PurchasesUpdate
             .build();
         
         billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
-            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+            int responseCode = billingResult.getResponseCode();
+            if (responseCode == BillingClient.BillingResponseCode.OK) {
                 for (ProductDetails productDetails : productDetailsList) {
                     productDetailsMap.put(productDetails.getProductId(), productDetails);
                 }
+                // プロダクトが見つからない場合のエラーハンドリング
+                if (productDetailsList.isEmpty() && !productDetailsMap.isEmpty()) {
+                    // プロダクトが見つからないが、これは正常（Google Play Consoleで設定が必要）
+                }
+            } else if (responseCode == BillingClient.BillingResponseCode.DEVELOPER_ERROR) {
+                String errorMsg = "プロダクトがGoogle Play Consoleで設定されていません。以下のプロダクトIDを設定してください: " + 
+                    String.join(", ", DONATION_PRODUCT_IDS);
+                billingState.postValue(new BillingState.Error(errorMsg));
             }
         });
     }
@@ -91,8 +117,12 @@ public class BillingManager implements DefaultLifecycleObserver, PurchasesUpdate
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
                 acknowledgePurchase(purchase);
+            } else {
+                // 既に確認済みの場合は成功を通知
+                purchaseState.postValue(new PurchaseState.Success(purchase));
             }
-            purchaseState.postValue(new PurchaseState.Success(purchase));
+        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+            purchaseState.postValue(new PurchaseState.Error("購入が保留中です。後でもう一度確認してください。"));
         }
     }
     
@@ -102,13 +132,19 @@ public class BillingManager implements DefaultLifecycleObserver, PurchasesUpdate
             .build();
         
         billingClient.acknowledgePurchase(params, billingResult -> {
-            // 購入の確認が完了
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                // 購入の確認が完了
+                purchaseState.postValue(new PurchaseState.Success(purchase));
+            } else {
+                String errorMsg = "購入の確認に失敗しました: " + billingResult.getDebugMessage();
+                purchaseState.postValue(new PurchaseState.Error(errorMsg));
+            }
         });
     }
     
     public void launchBillingFlow(Activity activity, int amount) {
         if (billingState.getValue() != BillingState.Ready) {
-            purchaseState.postValue(new PurchaseState.Error("Billing not ready"));
+            purchaseState.postValue(new PurchaseState.Error("アプリ内課金が準備できていません。しばらく待ってからもう一度お試しください。"));
             return;
         }
         
@@ -116,25 +152,33 @@ public class BillingManager implements DefaultLifecycleObserver, PurchasesUpdate
         ProductDetails productDetails = productDetailsMap.get(productId);
         
         if (productDetails == null) {
-            purchaseState.postValue(new PurchaseState.Error("Product not found. Please configure products in Google Play Console."));
+            String errorMsg = "プロダクト「" + productId + "」が見つかりません。\n" +
+                "Google Play Consoleで以下のプロダクトIDを設定してください:\n" +
+                "donation_10, donation_50, donation_100, donation_500, donation_1000, donation_5000, donation_10000";
+            purchaseState.postValue(new PurchaseState.Error(errorMsg));
             return;
         }
         
         purchaseState.postValue(PurchaseState.Processing);
         
-        List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = Arrays.asList(
-            BillingFlowParams.ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails)
-                .build()
-        );
+        // Billing Library 5.0+ のAPIを使用（In-app product）
+        List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = new ArrayList<>();
+        
+        // In-app product用のパラメータ
+        BillingFlowParams.ProductDetailsParams productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(productDetails)
+            .build();
+        productDetailsParamsList.add(productDetailsParams);
         
         BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(productDetailsParamsList)
             .build();
         
         BillingResult billingResult = billingClient.launchBillingFlow(activity, billingFlowParams);
-        if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
-            purchaseState.postValue(new PurchaseState.Error("Failed to launch billing flow"));
+        int responseCode = billingResult.getResponseCode();
+        if (responseCode != BillingClient.BillingResponseCode.OK) {
+            String errorMsg = getErrorMessage(responseCode, billingResult.getDebugMessage());
+            purchaseState.postValue(new PurchaseState.Error(errorMsg));
         }
     }
     

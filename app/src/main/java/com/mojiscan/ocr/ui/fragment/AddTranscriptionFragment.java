@@ -69,6 +69,7 @@ public class AddTranscriptionFragment extends Fragment {
             new ActivityResultContracts.GetContent(),
             uri -> {
                 if (uri != null) {
+                    // 音声ファイルも/api/v1/processエンドポイントを使用（process_type="auto"で自動判定）
                     processFile(uri);
                 }
             }
@@ -204,6 +205,7 @@ public class AddTranscriptionFragment extends Fragment {
     }
 
     private void openAudioFilePicker() {
+        // 音声ファイルも/api/v1/processエンドポイントを使用（process_type="auto"で自動判定）
         audioPickerLauncher.launch("audio/*");
     }
 
