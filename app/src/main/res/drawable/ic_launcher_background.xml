@@ -14,22 +14,19 @@
     <!-- 左上の明るい部分（光の効果） -->
     <path
         android:fillColor="#2196F3"
-        android:opacity="0.6"
-        android:pathData="M0,0 L108,0 L108,54 L0,54 Z"/>
+        android:pathData="M0,0 L108,0 L108,54 L0,54 Z"
+        android:alpha="0.6"/>
     
-    <!-- 中央の明るい円（ハイライト） -->
-    <circle
+    <!-- 中央の明るい円（ハイライト） - パスで表現 -->
+    <path
         android:fillColor="#42A5F5"
-        android:cx="54"
-        android:cy="30"
-        android:r="35"
-        android:opacity="0.3"/>
+        android:pathData="M54,30 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0 Z"
+        android:alpha="0.3"/>
     
     <!-- 右下の暗い部分（影の効果） -->
     <path
         android:fillColor="#1565C0"
-        android:opacity="0.4"
-        android:pathData="M54,54 L108,54 L108,108 L54,108 Z"/>
+        android:pathData="M54,54 L108,54 L108,108 L54,108 Z"
+        android:alpha="0.4"/>
     
 </vector>
-
