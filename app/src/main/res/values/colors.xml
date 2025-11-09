@@ -8,5 +8,7 @@
     <color name="primary_blue">#2196F3</color>
     <color name="primary_dark">#1976D2</color>
     <color name="accent">#03A9F4</color>
+    <color name="error">#F44336</color>
+    <color name="surface">#FFFFFF</color>
 </resources>
 

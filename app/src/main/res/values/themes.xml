@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme -->
-    <style name="Theme.OCRApp" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.OCRApp" parent="android:Theme.Material.Light.DarkActionBar">
         <!-- Primary brand color -->
-        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="android:colorPrimary">@color/primary_blue</item>
         <!-- Darker variant of primary color -->
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <!-- Accent color -->
-        <item name="colorAccent">@color/accent</item>
+        <item name="android:colorAccent">@color/accent</item>
         <!-- Status bar color -->
         <item name="android:statusBarColor">@color/primary_dark</item>
-    </style>
-
-    <style name="Theme.OCRApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    </style>
-
-    <style name="Theme.OCRApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
     </style>
 </resources>

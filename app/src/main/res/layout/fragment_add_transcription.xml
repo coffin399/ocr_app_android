@@ -9,14 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.OCRApp.AppBarOverlay">
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.OCRApp.PopupOverlay"
+            android:background="@color/primary_blue"
             app:title="@string/add_transcription"
             app:navigationIcon="?attr/homeAsUpIndicator" />
 
@@ -41,7 +40,7 @@
                 android:layout_marginBottom="16dp"
                 android:src="@android:drawable/ic_menu_add"
                 android:contentDescription="@string/add_transcription"
-                app:tint="?attr/colorPrimary" />
+                app:tint="@color/primary_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="@color/surface">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -85,7 +84,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorError">
+                app:cardBackgroundColor="@color/error">
 
                 <TextView
                     android:id="@+id/errorTextView"
@@ -104,7 +103,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorPrimary">
+                app:cardBackgroundColor="@color/primary_blue">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -161,7 +160,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/stop_recording"
                 android:visibility="gone"
-                app:backgroundTint="?attr/colorError" />
+                app:backgroundTint="@color/error" />
 
         </LinearLayout>
 
