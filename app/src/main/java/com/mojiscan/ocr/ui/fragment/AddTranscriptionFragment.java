@@ -125,25 +125,10 @@ public class AddTranscriptionFragment extends Fragment {
         processingCard = view.findViewById(R.id.processingCard);
         processingTextView = view.findViewById(R.id.processingTextView);
 
-        // Find parent cards for click listeners
-        if (selectFileButton != null && selectFileButton.getParent() != null) {
-            View parent = (View) selectFileButton.getParent();
-            if (parent.getParent() != null) {
-                selectFileCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
-            }
-        }
-        if (selectAudioButton != null && selectAudioButton.getParent() != null) {
-            View parent = (View) selectAudioButton.getParent();
-            if (parent.getParent() != null) {
-                selectAudioCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
-            }
-        }
-        if (recordAudioButton != null && recordAudioButton.getParent() != null) {
-            View parent = (View) recordAudioButton.getParent();
-            if (parent.getParent() != null) {
-                recordAudioCard = (com.google.android.material.card.MaterialCardView) parent.getParent();
-            }
-        }
+        // Find cards directly by ID
+        selectFileCard = view.findViewById(R.id.selectFileCard);
+        selectAudioCard = view.findViewById(R.id.selectAudioCard);
+        recordAudioCard = view.findViewById(R.id.recordAudioCard);
 
         if (selectFileCard != null) {
             selectFileCard.setOnClickListener(v -> openFilePicker());
@@ -154,7 +139,9 @@ public class AddTranscriptionFragment extends Fragment {
         if (recordAudioCard != null) {
             recordAudioCard.setOnClickListener(v -> checkAndStartRecording());
         }
-        stopRecordingButton.setOnClickListener(v -> stopRecording());
+        if (stopRecordingButton != null) {
+            stopRecordingButton.setOnClickListener(v -> stopRecording());
+        }
 
         apiViewModel.getIsProcessing().observe(getViewLifecycleOwner(), isProcessing -> {
             if (isProcessing) {
