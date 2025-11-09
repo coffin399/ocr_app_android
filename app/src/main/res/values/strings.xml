@@ -36,4 +36,5 @@
     <string name="donation_not_available">寄付機能は現在利用できません</string>
     <string name="yen">円</string>
     <string name="donation_note">ご寄付は任意です。アプリの機能は無料でご利用いただけます。</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 </resources>

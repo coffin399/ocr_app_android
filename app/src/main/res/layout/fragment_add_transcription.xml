@@ -14,10 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/primary_blue"
-            app:title="@string/add_transcription"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            android:minHeight="56dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,14 +40,14 @@
                 android:layout_marginBottom="16dp"
                 android:src="@android:drawable/ic_menu_add"
                 android:contentDescription="@string/add_transcription"
-                app:tint="@color/primary_blue" />
+                android:tint="@color/primary_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@string/add_transcription"
-                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="@string/donation_description"
-                android:textAppearance="?attr/textAppearanceBody1"
+                android:textSize="16sp"
                 android:textColor="?android:attr/textColorSecondary" />
 
             <com.google.android.material.card.MaterialCardView
@@ -64,14 +64,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/surface">
+                app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/donation_note"
-                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textSize="12sp"
                     android:textColor="?android:attr/textColorSecondary"
                     android:gravity="center" />
 
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textSize="14sp"
                     android:textColor="@android:color/white" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/processing"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textSize="14sp"
                         android:textColor="@android:color/white" />
 
                 </LinearLayout>
@@ -160,7 +160,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/stop_recording"
                 android:visibility="gone"
-                app:backgroundTint="@color/error" />
+                android:backgroundTint="@color/error" />
 
         </LinearLayout>
 

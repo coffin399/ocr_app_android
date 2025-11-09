@@ -14,10 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/primary_blue"
-            app:title="@string/donation_title"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            android:minHeight="56dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@string/donation_title"
-                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="@string/donation_description"
-                android:textAppearance="?attr/textAppearanceBody1"
+                android:textSize="16sp"
                 android:textColor="?android:attr/textColorSecondary" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/donation_min_amount"
-                android:textAppearance="?attr/textAppearanceCaption"
+                android:textSize="12sp"
                 android:textColor="?android:attr/textColorSecondary" />
 
             <com.google.android.material.chip.ChipGroup
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textSize="14sp"
                     android:textColor="@android:color/white" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -163,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/donation_processing"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textSize="14sp"
                         android:textColor="@android:color/white" />
 
                 </LinearLayout>
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/donation_note"
-                android:textAppearance="?attr/textAppearanceCaption"
+                android:textSize="12sp"
                 android:textColor="?android:attr/textColorSecondary"
                 android:gravity="center" />
 

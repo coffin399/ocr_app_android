@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="20sp"
             android:textStyle="bold"
             tools:text="タイトル" />
 
@@ -31,7 +31,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="16sp"
             tools:text="テキストプレビュー..." />
 
         <LinearLayout
@@ -46,13 +46,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAppearance="?attr/textAppearanceCaption"
+                android:textSize="12sp"
                 android:textColor="?android:attr/textColorSecondary"
                 tools:text="2024/01/01 12:00" />
 
             <Button
                 android:id="@+id/deleteButton"
-                style="?attr/borderlessButtonStyle"
+                style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete" />

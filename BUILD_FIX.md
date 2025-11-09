@@ -1,28 +1,35 @@
 # ビルドエラー解決ガイド
 
-## 現在の状況
-
-テーマを`android:Theme.Material.Light.DarkActionBar`に変更し、すべてのテーマ属性参照を直接の色参照に置き換えました。
-
 ## 実施した修正
 
-1. **テーマの変更**
-   - `Theme.MaterialComponents.*` → `android:Theme.Material.Light.DarkActionBar`
-   - AndroidネイティブのMaterialテーマを使用
+### 1. **テーマをAppCompatベースに変更**
+   - `Theme.MaterialComponents.*` → `Theme.AppCompat.Light.DarkActionBar`
+   - AppCompatテーマを使用（Material Componentsライブラリが必要ですが、Gradle Sync後に動作します）
 
-2. **テーマ属性の置き換え**
-   - `?attr/colorPrimary` → `@color/primary_blue`
-   - `?attr/colorError` → `@color/error`
-   - `?attr/colorSurface` → `@color/surface`
-   - テーマオーバーレイの参照を削除
+### 2. **Toolbar属性の修正**
+   - `app:title` → Javaコードで設定（レイアウトから削除）
+   - `app:navigationIcon` → Javaコードで設定（レイアウトから削除）
+   - `?attr/actionBarSize` → `wrap_content` + `minHeight="56dp"`
 
-3. **Material Componentsスタイルの削除**
-   - `Widget.MaterialComponents.*`スタイル参照をすべて削除
-   - Material Componentsウィジェットは引き続き使用可能（デフォルトスタイルが適用）
+### 3. **Material Componentsテキストスタイルの置き換え**
+   - `textAppearanceHeadline5` → `textSize="24sp"`
+   - `textAppearanceHeadline6` → `textSize="20sp"`
+   - `textAppearanceBody1` → `textSize="16sp"`
+   - `textAppearanceBody2` → `textSize="14sp"`
+   - `textAppearanceCaption` → `textSize="12sp"`
+   - `textAppearanceSubtitle1` → `textSize="16sp"`
+
+### 4. **属性の置き換え**
+   - `app:tint` → `android:tint`
+   - `app:backgroundTint` → `android:backgroundTint`
+   - `app:defaultNavHost` → 削除（Javaコードで設定）
+
+### 5. **appbar_scrolling_view_behavior文字列の修正**
+   - Material Componentsの正しいクラス名に更新
 
 ## 次のステップ
 
-### 1. Android StudioでGradle Syncを実行
+### 1. Android StudioでGradle Syncを実行（必須）
 1. Android Studioを開く
 2. 「File」→「Sync Project with Gradle Files」をクリック
 3. 同期が完了するまで待つ（数分かかる場合があります）
@@ -31,20 +38,31 @@
 1. 「Build」→「Clean Project」をクリック
 2. 「Build」→「Rebuild Project」をクリック
 
-### 3. それでも解決しない場合
+### 3. Toolbarのタイトルとナビゲーションアイコンの設定
 
-以下のコマンドをAndroid Studioのターミナルで実行してください：
+Toolbarのタイトルとナビゲーションアイコンは、各FragmentのJavaコードで設定する必要があります。
 
-```bash
-gradlew clean
-gradlew build --refresh-dependencies
+例：
+```java
+@Override
+public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    
+    // Toolbarの設定
+    Toolbar toolbar = view.findViewById(R.id.toolbar);
+    toolbar.setTitle("タイトル");
+    toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+    toolbar.setNavigationOnClickListener(v -> {
+        // ナビゲーション処理
+    });
+}
 ```
 
 ## 注意事項
 
-- `android:Theme.Material`はAPI 21（Android 5.0）以上で利用可能です
-- プロジェクトの`minSdk`は24なので、問題なく動作するはずです
-- Material Componentsウィジェットは引き続き使用できますが、テーマはAndroidネイティブのMaterialテーマを使用しています
+- Material Componentsウィジェット（MaterialCardView、TextInputLayoutなど）は引き続き使用できます
+- Material Componentsライブラリは`build.gradle`に含まれているので、Gradle Sync後にMaterial Componentsテーマも使用可能になります
+- 現在はAppCompatテーマを使用していますが、Gradle Sync後にMaterial Componentsテーマに変更することもできます
 
 ## トラブルシューティング
 
@@ -72,4 +90,3 @@ Gradle Syncが成功した後、`themes.xml`の親テーマを以下に変更で
 ```
 
 ただし、この場合はGradle Syncが正しく完了している必要があります。
-

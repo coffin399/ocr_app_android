@@ -14,10 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/primary_blue"
-            app:title="@string/settings"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            android:minHeight="56dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,7 +51,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_dialog_info"
                         android:contentDescription="@string/update_info"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -59,14 +59,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/update_info"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -97,7 +97,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_help"
                         android:contentDescription="@string/feedback"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -105,14 +105,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/feedback"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -143,7 +143,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/btn_star"
                         android:contentDescription="@string/donation"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -151,14 +151,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/donation"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -189,7 +189,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_lock_lock"
                         android:contentDescription="@string/data_handling"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -197,14 +197,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/data_handling"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -235,7 +235,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_view"
                         android:contentDescription="@string/terms_of_service"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -243,14 +243,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/terms_of_service"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -281,7 +281,7 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_lock_lock"
                         android:contentDescription="@string/privacy_policy"
-                        app:tint="@color/primary_blue" />
+                        android:tint="@color/primary_blue" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -289,14 +289,14 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:text="@string/privacy_policy"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_more"
                         android:contentDescription=""
-                        app:tint="?android:attr/textColorSecondary" />
+                        android:tint="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -307,7 +307,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/version"
-                android:textAppearance="?attr/textAppearanceCaption"
+                android:textSize="12sp"
                 android:textColor="?android:attr/textColorSecondary"
                 android:gravity="center" />
 

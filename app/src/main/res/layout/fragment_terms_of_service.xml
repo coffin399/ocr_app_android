@@ -14,10 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/primary_blue"
-            app:title="@string/terms_of_service"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            android:minHeight="56dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="16sp"
             tools:text="利用規約..." />
 
     </androidx.core.widget.NestedScrollView>
