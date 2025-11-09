@@ -36,15 +36,13 @@ jobs:
         if: hashFiles('gradlew') == ''
         run: |
           mkdir -p gradle/wrapper
-          # Gradle Wrapper JARをダウンロード
-          curl -L https://services.gradle.org/distributions/gradle-8.6-bin.zip -o /tmp/gradle.zip
-          unzip -q /tmp/gradle.zip -d /tmp/
-          cp /tmp/gradle-8.6/lib/gradle-wrapper-*.jar gradle/wrapper/gradle-wrapper.jar || \
-          curl -L https://repo1.maven.org/maven2/org/gradle/gradle-wrapper/8.6/gradle-wrapper-8.6.jar -o gradle/wrapper/gradle-wrapper.jar
+          # Gradle Wrapper JARを正しくダウンロード
+          curl -L https://raw.githubusercontent.com/gradle/gradle/v8.6.0/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
           # gradlewスクリプトを作成
           cat > gradlew << 'EOF'
           #!/bin/sh
-          exec java -jar "$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar" "$@"
+          SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+          exec java -jar "$SCRIPT_DIR/gradle/wrapper/gradle-wrapper.jar" "$@"
           EOF
           chmod +x gradlew
       
@@ -98,7 +96,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.event.inputs.tag }}
-          name: Release ${{ github.event.inputs.tag }}
+          name: ${{ github.event.inputs.tag }}
           files: app/build/outputs/apk/release/app-release.apk
           body: |
             ## リリース内容

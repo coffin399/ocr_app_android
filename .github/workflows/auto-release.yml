@@ -31,10 +31,10 @@ jobs:
           VERSION_CODE=$(grep -oP 'versionCode\s+\K[0-9]+' app/build.gradle | head -1)
           echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-          echo "tag_name=v$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "tag_name=open-beta-v$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "Version Name: $VERSION_NAME"
           echo "Version Code: $VERSION_CODE"
-          echo "Tag Name: v$VERSION_NAME"
+          echo "Tag Name: open-beta-v$VERSION_NAME"
       
       - name: Check if tag exists
         id: check_tag
