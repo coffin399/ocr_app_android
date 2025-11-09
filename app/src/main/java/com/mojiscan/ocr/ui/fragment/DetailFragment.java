@@ -6,18 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.mojiscan.ocr.R;
 import com.mojiscan.ocr.data.entity.TranscriptionEntity;
@@ -32,11 +29,12 @@ public class DetailFragment extends Fragment {
     private TextView modelTextView;
     private TextView processingTimeTextView;
     private TextView textTextView;
+    private View shareIcon;
+    private View copyIcon;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -51,21 +49,36 @@ public class DetailFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(TranscriptionViewModel.class);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null && toolbar != null) {
-            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
-            if (activity.getSupportActionBar() == null) {
-                try {
-                    activity.setSupportActionBar(toolbar);
-                    toolbar.setTitle("詳細");
-                    toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
-                } catch (Exception e) {
-                    e.printStackTrace();
+        NavController navController = Navigation.findNavController(view);
+
+        // Back icon click listener
+        View backIcon = view.findViewById(R.id.backIcon);
+        if (backIcon != null) {
+            backIcon.setOnClickListener(v -> {
+                if (navController != null) {
+                    navController.popBackStack();
                 }
-            } else {
-                toolbar.setTitle("詳細");
-                toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
-            }
+            });
+        }
+
+        // Share icon click listener
+        shareIcon = view.findViewById(R.id.shareIcon);
+        if (shareIcon != null) {
+            shareIcon.setOnClickListener(v -> {
+                if (transcription != null) {
+                    shareText();
+                }
+            });
+        }
+
+        // Copy icon click listener
+        copyIcon = view.findViewById(R.id.copyIcon);
+        if (copyIcon != null) {
+            copyIcon.setOnClickListener(v -> {
+                if (transcription != null) {
+                    copyToClipboard();
+                }
+            });
         }
 
         titleTextView = view.findViewById(R.id.titleTextView);
@@ -85,6 +98,13 @@ public class DetailFragment extends Fragment {
                 if (entity != null) {
                     transcription = entity;
                     displayTranscription(transcription);
+                    // Enable share and copy icons after transcription is loaded
+                    if (shareIcon != null) {
+                        shareIcon.setVisibility(View.VISIBLE);
+                    }
+                    if (copyIcon != null) {
+                        copyIcon.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         }
@@ -99,25 +119,6 @@ public class DetailFragment extends Fragment {
         textTextView.setText(transcription.getText());
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_detail, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (transcription == null) return false;
-
-        if (item.getItemId() == R.id.action_copy) {
-            copyToClipboard();
-            return true;
-        } else if (item.getItemId() == R.id.action_share) {
-            shareText();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void copyToClipboard() {
         ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);

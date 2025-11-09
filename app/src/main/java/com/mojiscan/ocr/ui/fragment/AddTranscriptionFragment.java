@@ -99,21 +99,14 @@ public class AddTranscriptionFragment extends Fragment {
         apiViewModel = new ViewModelProvider(requireActivity()).get(ApiViewModel.class);
         audioRecorder = new AudioRecorder(requireContext());
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null && toolbar != null) {
-            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
-            if (activity.getSupportActionBar() == null) {
-                try {
-                    activity.setSupportActionBar(toolbar);
-                    toolbar.setTitle(R.string.add_transcription);
-                    toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
-                } catch (Exception e) {
-                    e.printStackTrace();
+        // Back icon click listener
+        View backIcon = view.findViewById(R.id.backIcon);
+        if (backIcon != null) {
+            backIcon.setOnClickListener(v -> {
+                if (navController != null) {
+                    navController.popBackStack();
                 }
-            } else {
-                toolbar.setTitle(R.string.add_transcription);
-                toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
-            }
+            });
         }
 
         selectFileButton = view.findViewById(R.id.selectFileButton);

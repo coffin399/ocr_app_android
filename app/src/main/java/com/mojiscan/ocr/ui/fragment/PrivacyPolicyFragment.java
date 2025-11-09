@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,21 +27,14 @@ public class PrivacyPolicyFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null && toolbar != null) {
-            androidx.appcompat.app.AppCompatActivity activity = (androidx.appcompat.app.AppCompatActivity) getActivity();
-            if (activity.getSupportActionBar() == null) {
-                try {
-                    activity.setSupportActionBar(toolbar);
-                    toolbar.setTitle(R.string.privacy_policy);
-                    toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
-                } catch (Exception e) {
-                    e.printStackTrace();
+        // Back icon click listener
+        View backIcon = view.findViewById(R.id.backIcon);
+        if (backIcon != null) {
+            backIcon.setOnClickListener(v -> {
+                if (navController != null) {
+                    navController.popBackStack();
                 }
-            } else {
-                toolbar.setTitle(R.string.privacy_policy);
-                toolbar.setNavigationOnClickListener(v -> navController.popBackStack());
-            }
+            });
         }
 
         TextView contentTextView = view.findViewById(R.id.contentTextView);
